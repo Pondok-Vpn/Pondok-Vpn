@@ -370,10 +370,10 @@ function _draw_info_panel() {
     fi
 
     # --- Print Panel ---
-    printf "  ${RED}%-7s${YELLOW}%-18s ${AQUA}%-6s${YELLOW}%-19s${NC}\n" "OS:" "${os_info}" "ISP:" "${isp_info}"
-    printf "  ${RED}%-7s${YELLOW}%-18s ${AQUA}%-6s${YELLOW}%-19s${NC}\n" "IP:" "${ip_info}" "Host:" "${host_info}"
-    printf "  ${RED}%-7s${YELLOW}%-18s ${AQUA}%-6s${YELLOW}%-19s${NC}\n" "Client:" "${client_name}" "EXP:" "${license_exp}"
-    printf "  ${RED}%-7s${YELLOW}%-18s ${AQUA}%-6s${YELLOW}%-19s${NC}\n" "Today:" "${bw_today}" "Month:" "${bw_month}"
+    printf "  ${RED}%-7s${YELLOW}%-18s ${RED}%-6s${YELLOW}%-19s${NC}\n" "OS:" "${os_info}" "ISP:" "${isp_info}"
+    printf "  ${RED}%-7s${YELLOW}%-18s ${RED}%-6s${YELLOW}%-19s${NC}\n" "IP:" "${ip_info}" "Host:" "${host_info}"
+    printf "  ${RED}%-7s${YELLOW}%-18s ${RED}%-6s${YELLOW}%-19s${NC}\n" "Client:" "${client_name}" "EXP:" "${license_exp}"
+    printf "  ${RED}%-7s${YELLOW}%-18s ${RED}%-6s${YELLOW}%-19s${NC}\n" "Today:" "${bw_today}" "Month:" "${bw_month}"
 }
 
 function _draw_service_status() {
@@ -383,13 +383,13 @@ function _draw_service_status() {
 
     if [ "$service_status" = "active" ]; then
         status_text="Running"
-        status_color="${YELLOW}"
+        status_color="${GREEN}"
     elif [ "$service_status" = "inactive" ]; then
         status_text="Stopped"
-        status_color="${YELLOW}"
+        status_color="${RED}"
     elif [ "$service_status" = "failed" ]; then
         status_text="Error"
-        status_color="${YELLOW}"
+        status_color="${RED}"
     else
         status_text="Unknown"
         status_color="${YELLOW}"
@@ -407,9 +407,9 @@ function _draw_service_status() {
     local padding_left=$((padding_total / 2))
     local padding_right=$((padding_total - padding_left))
 
-    echo -e "${GREEN}╠════════════════════════════════════════════════════╣${NC}"
+    echo -e "${GREEN}╚═══════════════════════════════════════════════════╝${NC}"
     echo -e "$(printf '%*s' $padding_left)${status_output}$(printf '%*s' $padding_right)"
-    echo -e "${GREEN}╠════════════════════════════════════════════════════╣${NC}"
+    echo -e "${GREEN}╔═══════════════════════════════════════════════════╗${NC}"
 }
 
 function setup_auto_backup() {
@@ -442,12 +442,12 @@ function setup_auto_backup() {
 function create_account() {
     clear
     echo -e "${GREEN}╔════════════════✦ ${YELLOW}CREATE ACCOUNT${GREEN} ✦════════════════╗${NC}"
-    echo -e "${GREEN}║                                                          ${GREEN}║${NC}"
-    echo -e "${GREEN}║   ${RED}[1]${NC} ${YELLOW}CREATE ZIVPN                              ${GREEN}║${NC}"
-    echo -e "${GREEN}║   ${RED}[2]${NC} ${YELLOW}CREATE TRIA                               ${GREEN}║${NC}"
-    echo -e "${GREEN}║   ${RED}[0]${NC} ${YELLOW}BACK TO MENU                              ${GREEN}║${NC}"
-    echo -e "${GREEN}║                                                          ${GREEN}║${NC}"
-    echo -e "${GREEN}╚════════════════════════════════════════════════════╝${NC}"
+    echo -e "${GREEN}║                                                     ${GREEN}║${NC}"
+    echo -e "${GREEN}║   ${RED}[1]${NC} ${YELLOW}CREATE ZIVPN                                ${GREEN}║${NC}"
+    echo -e "${GREEN}║   ${RED}[2]${NC} ${YELLOW}CREATE TRIA                                 ${GREEN}║${NC}"
+    echo -e "${GREEN}║   ${RED}[0]${NC} ${YELLOW}BACK TO MENU                                ${GREEN}║${NC}"
+    echo -e "${GREEN}║                                                     ${GREEN}║${NC}"
+    echo -e "${GREEN}╚═══════════════════════════════════════════════════╝${NC}"
 
     read -p "PONDOK VPN, ENTER [0-2]: " choice
 
@@ -462,13 +462,13 @@ function create_account() {
 function show_backup_menu() {
     clear
     echo -e "${GREEN}╔═══════════════✦ ${YELLOW}BACKUP/RESTORE${GREEN} ✦═══════════════╗${NC}"
-    echo -e "${GREEN}║                                                      ${GREEN}║${NC}"
-    echo -e "${GREEN}║   ${RED}[1]${NC} ${YELLOW}BACKUP DATA                            ${GREEN}║${NC}"
-    echo -e "${GREEN}║   ${RED}[2]${NC} ${YELLOW}RESTORE DATA                           ${GREEN}║${NC}"
-    echo -e "${GREEN}║   ${RED}[3]${NC} ${YELLOW}AUTO BACKUP                            ${GREEN}║${NC}"
-    echo -e "${GREEN}║   ${RED}[4]${NC} ${YELLOW}ATUR ULANG BOT TELEGRAM                ${GREEN}║${NC}"
-    echo -e "${GREEN}║   ${RED}[0]${NC} ${YELLOW}KEMBALI KEMENU                         ${GREEN}║${NC}"
-    echo -e "${GREEN}║                                                      ${GREEN}║${NC}"
+    echo -e "${GREEN}║                                                 ${GREEN}║${NC}"
+    echo -e "${GREEN}║   ${RED}[1]${NC} ${YELLOW}BACKUP DATA                              ${GREEN}║${NC}"
+    echo -e "${GREEN}║   ${RED}[2]${NC} ${YELLOW}RESTORE DATA                             ${GREEN}║${NC}"
+    echo -e "${GREEN}║   ${RED}[3]${NC} ${YELLOW}AUTO BACKUP                              ${GREEN}║${NC}"
+    echo -e "${GREEN}║   ${RED}[4]${NC} ${YELLOW}ATUR ULANG BOT TELEGRAM                  ${GREEN}║${NC}"
+    echo -e "${GREEN}║   ${RED}[0]${NC} ${YELLOW}KEMBALI KEMENU                           ${GREEN}║${NC}"
+    echo -e "${GREEN}║                                                 ${GREEN}║${NC}"
     echo -e "${GREEN}╚══════════════════════════════════════════════════╝${NC}"
 
     read -p "PONDOK VPN, ENTER [0-4]: " choice
@@ -486,20 +486,20 @@ function show_backup_menu() {
 function show_menu() {
 
     clear
-    figlet "UDP ZIVPN" | lolcat
+    figlet "PONDOK VPN" | lolcat
 
-    echo -e "${GREEN}╔══════════════════✦ ${YELLOW}PONDOK VPN${GREEN} ✦═══════════════════╗${NC}"
+    echo -e "${GREEN}╔══════════════════✦ ${YELLOW}UDP ZIVPN${GREEN} ✦═══════════════════╗${NC}"
     _draw_info_panel
     _draw_service_status
-    echo -e "${GREEN}║                                                          ${GREEN}║${NC}"
-    echo -e "${GREEN}║   ${RED}[1]${NC} ${YELLOW}CREATE ACCOUNT                             ${GREEN}║${NC}"
-    echo -e "${GREEN}║   ${RED}[2]${NC} ${YELLOW}RENEW ACCOUNT                              ${GREEN}║${NC}"
-    echo -e "${GREEN}║   ${RED}[3]${NC} ${YELLOW}DELLETE ACCOUNT                            ${GREEN}║${NC}"
-    echo -e "${GREEN}║   ${RED}[4]${NC} ${YELLOW}CHANGE DOMAIN                              ${GREEN}║${NC}"
-    echo -e "${GREEN}║   ${RED}[5]${NC} ${YELLOW}LIST ACCOUNT                               ${GREEN}║${NC}"
-    echo -e "${GREEN}║   ${RED}[6]${NC} ${YELLOW}BACKUP/RESTORE                             ${GREEN}║${NC}"
-    echo -e "${GREEN}║   ${RED}[0]${NC} ${YELLOW}EXIT                                       ${GREEN}║${NC}"
-    echo -e "${GREEN}║                                                          ${GREEN}║${NC}"
+    echo -e "${GREEN}║                                                     ${GREEN}║${NC}"
+    echo -e "${GREEN}║   ${RED}[1]${NC} ${YELLOW}CREATE ACCOUNT                               ${GREEN}║${NC}"
+    echo -e "${GREEN}║   ${RED}[2]${NC} ${YELLOW}RENEW ACCOUNT                                ${GREEN}║${NC}"
+    echo -e "${GREEN}║   ${RED}[3]${NC} ${YELLOW}DELLETE ACCOUNT                              ${GREEN}║${NC}"
+    echo -e "${GREEN}║   ${RED}[4]${NC} ${YELLOW}CHANGE DOMAIN                                ${GREEN}║${NC}"
+    echo -e "${GREEN}║   ${RED}[5]${NC} ${YELLOW}LIST ACCOUNT                                 ${GREEN}║${NC}"
+    echo -e "${GREEN}║   ${RED}[6]${NC} ${YELLOW}BACKUP/RESTORE                               ${GREEN}║${NC}"
+    echo -e "${GREEN}║   ${RED}[0]${NC} ${YELLOW}EXIT                                         ${GREEN}║${NC}"
+    echo -e "${GREEN}║                                                     ${GREEN}║${NC}"
     echo -e "${GREEN}╚════════════════════════════════════════════════════╝${NC}"
 
     read -p "PONDOK VPN, ENTER [0-6]: " choice
