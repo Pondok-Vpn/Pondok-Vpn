@@ -1,0 +1,93 @@
+#!/bin/bash
+# CREATED BY : PONDOK VPN
+# TELEGRAM : @BENDAKEREP
+# ==========================================
+#        MENU BOT TELEGRAM – RAPI
+# ==========================================
+
+GREEN="\e[42;30m"
+YELLOW="\e[33m"
+RED="\e[31m"
+NC="\e[0m"
+
+BOT_FILE="/etc/pondokvpn/bot.conf"
+
+# ------------------------
+# Fungsi cek status BOT
+# ------------------------
+cek_status_bot() {
+    if [ -s "$BOT_FILE" ]; then
+        TOKEN=$(grep BOT_TOKEN $BOT_FILE | cut -d '"' -f2)
+        echo "BOT TOKEN: ${GREEN}Terpasang${NC}"
+    else
+        echo "BOT TOKEN: ${RED}Kosong${NC}"
+    fi
+}
+
+# ------------------------
+# Fungsi BOT
+# ------------------------
+masukan_api() {
+    read -p "Masukkan BOT TOKEN baru: " newtoken
+    echo "BOT_TOKEN=\"$newtoken\"" > $BOT_FILE
+    echo -e "${GREEN}BOT TOKEN berhasil disimpan!${NC}"
+    read -p "Tekan Enter untuk kembali..."
+}
+
+ganti_api() {
+    if [ ! -s "$BOT_FILE" ]; then
+        echo -e "${RED}Belum ada BOT TOKEN yang tersimpan!${NC}"
+        read -p "Tekan Enter..."
+        return
+    fi
+    read -p "Masukkan BOT TOKEN baru: " newtoken
+    sed -i "s|^BOT_TOKEN=.*|BOT_TOKEN=\"$newtoken\"|g" $BOT_FILE
+    echo -e "${GREEN}BOT TOKEN berhasil diganti!${NC}"
+    read -p "Tekan Enter untuk kembali..."
+}
+
+hapus_bot() {
+    > $BOT_FILE
+    echo -e "${GREEN}BOT TOKEN berhasil dihapus!${NC}"
+    read -p "Tekan Enter untuk kembali..."
+}
+
+# ------------------------
+# Menu BOT RAPI
+# ------------------------
+menu_bot() {
+    while true; do
+        clear
+
+        # Judul menu di atas bingkai
+        echo -e "${GREEN}===== MENU BOT TELEGRAM =====${NC}"
+        echo ""
+
+        # Bingkai atas
+        echo -e "${GREEN}╔══════════════════════════════════════╗${NC}"
+
+        # Menu BOT rata tengah
+        printf "${GREEN}║%32s║\n${NC}" " ${YELLOW}[${RED}1${YELLOW}]${NC} MASUKAN API TOKEN"
+        printf "${GREEN}║%32s║\n${NC}" " ${YELLOW}[${RED}2${YELLOW}]${NC} GANTI API TOKEN"
+        printf "${GREEN}║%32s║\n${NC}" " ${YELLOW}[${RED}3${YELLOW}]${NC} HAPUS BOT TOKEN"
+        printf "${GREEN}║%32s║\n${NC}" " ${YELLOW}[${RED}0${YELLOW}]${NC} KEMBALI"
+
+        # Bingkai bawah
+        echo -e "${GREEN}╚══════════════════════════════════════╝${NC}"
+        echo ""
+
+        # Status BOT TOKEN
+        cek_status_bot
+        echo ""
+
+        read -p "Pilih menu: " pil
+
+        case $pil in
+            1) masukan_api ;;
+            2) ganti_api ;;
+            3) hapus_bot ;;
+            0) break ;;
+            *) echo -e "${RED}Pilihan salah!${NC}" ; read -p "Tekan Enter..." ;;
+        esac
+    done
+}
