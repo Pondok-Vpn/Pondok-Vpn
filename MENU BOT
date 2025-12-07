@@ -45,25 +45,15 @@ hapus_bot() {
 menu_bot() {
     while true; do
         clear
-
-        # Judul menu di atas bingkai
         echo -e "${GREEN}===== MENU BOT TELEGRAM =====${NC}"
-        echo ""
-
-        # Bingkai atas
         echo -e "${GREEN}╔══════════════════════════════════════╗${NC}"
-
-        # Menu BOT rata tengah
         printf "${GREEN}║%32s║\n${NC}" " ${YELLOW}([${RED}1${YELLOW}])${NC} MASUKAN API TOKEN"
         printf "${GREEN}║%32s║\n${NC}" " ${YELLOW}([${RED}2${YELLOW}])${NC} GANTI API TOKEN"
         printf "${GREEN}║%32s║\n${NC}" " ${YELLOW}([${RED}3${YELLOW}])${NC} HAPUS BOT TOKEN"
         printf "${GREEN}║%32s║\n${NC}" " ${YELLOW}([${RED}0${YELLOW}])${NC} KEMBALI"
-
-        # Bingkai bawah
         echo -e "${GREEN}╚══════════════════════════════════════╝${NC}"
-        echo ""
 
-        # Status BOT TOKEN
+        # Status BOT
         if [ -s "$BOT_FILE" ]; then
             echo "BOT TOKEN: ${GREEN}Terpasang${NC}"
         else
@@ -76,7 +66,7 @@ menu_bot() {
             1) masukan_api ;;
             2) ganti_api ;;
             3) hapus_bot ;;
-            0) break ;;  # <- Kembali ke menu utama
+            0) break ;;  # Kembali ke menu utama
             *) echo -e "${RED}Pilihan salah!${NC}" ; read -p "Tekan Enter..." ;;
         esac
     done
