@@ -1,16 +1,40 @@
-## Hi there 👋
 
-<!--
-**Pondok-Vpn/Pondok-Vpn** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+# UP REPO DEBIAN
+<pre><code>apt update -y && apt upgrade -y && apt dist-upgrade -y && reboot</code></pre>
+# UP REPO UBUNTU
+<pre><code>apt update && apt upgrade -y && update-grub && sleep 2 && reboot</pre></code>
 
-Here are some ideas to get you started:
+### INSTALL SCRIPT 
+<pre><code>apt install -y && apt update -y && apt upgrade -y && apt install lolcat -y && gem install lolcat && wget -q https://raw.githubusercontent.com/pondokstore/Pondokvpn/refs/heads/main/setup-main.sh && chmod +x setup-main.sh && ./setup-main.sh
+</code></pre>
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+### PERINTAH UPDATE 
+<pre><code>wget https://raw.githubusercontent.com/pondokstore/Pondokvpn/refs/heads/main/files/update.sh && chmod +x update.sh && ./update.sh</code></pre>
+
+### TESTED ON OS 
+- UBUNTU 20
+- DEBIAN 10 ( Recomended )
+
+### PORT INFO
+```
+- TROJAN WS  443 8443
+- TROJAN GRPC 443 8443
+- SHADOWSOCKS WS 443 8443
+- SHADOWSOCKS GRPC 443 8443
+- VLESS WSS 443 8443
+- VLESS GRPC 443 8443
+- VLESS NONTLS 80 8080 8880 2082
+- VMESS WS 443 8443
+- VMESS GRPC 443 8443
+- VMESS NONTLS 80 8080 8880 2082
+- SSH WS / TLS 443 8443
+- SSH NON TLS 8880 80 8080 2082 2095 2086
+- OVPN SSL/TCP 1194
+- SLOWDNS 5300
+```
+### Author
+```
+```
+PONDOK VPN TUNNEL:
+
+<a href="https://t.me/bendakerep" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Telegram&label=Telegram&message=Click%20Here&color=blue"></a><br>
