@@ -8,9 +8,9 @@ date_list=$(date +"%Y-%m-%d" -d "$dateFromServer")
 clear
 
 # Konfigurasi repo dan variabel
-Repo1="https://raw.githubusercontent.com/bowowiwendi/ipvps/main/ip"
-EMAIL="bowowiwendi@gmail.com"
-USER="bowowiwendi"
+Repo1="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/ip"
+EMAIL="redzall55@gmail.com"
+USER="Pondok-Vpn"
 
 # Warna untuk output
 RED='\033[0;31m'
@@ -32,6 +32,7 @@ function send_log() {
 <code>Registered On  : </code><code>$today</code>
 <code>Expired On     : </code><code>$exp2</code>
 <code>───────────────────────────</code>
+<code>by PONDOKVPN</code>
 "
     curl -s --max-time $TIMES -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
 }
@@ -64,7 +65,7 @@ git init &> /dev/null
 git add . &> /dev/null
 git commit -m "update file" &> /dev/null
 git branch -M main &> /dev/null
-git remote add origin git@github.com:bowowiwendi/ipvps.git
+git remote add origin git@github.com:Pondok-Vpn/pondokvip.git
 git push -f origin main &> /dev/null
 
 # Mengirim log dan membersihkan
