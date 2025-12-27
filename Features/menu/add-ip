@@ -7,11 +7,11 @@ data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date |
 date_list=$(date +"%Y-%m-%d" -d "$data_server")
 
 clear
-Repo1="https://raw.githubusercontent.com/bowowiwendi/ipvps/main/ip"
+Repo1="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/ip"
 export MYIP=$( curl -s https://ipinfo.io/ip/ )
-SELLER=$(curl -sS ${Repo1}ip | grep $MYIP | awk '{print $2}')
-Exp=$(curl -sS ${Repo1}ip | grep $MYIP | awk '{print $3}')
-data_ip="https://raw.githubusercontent.com/bowowiwendi/ipvps/main/ip"
+SELLER=$(curl -sS ${Repo1} | grep $MYIP | awk '{print $2}')
+Exp=$(curl -sS ${Repo1} | grep $MYIP | awk '{print $3}')
+data_ip="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/ip"
 d2=$(date -d "$date_list" +"+%s")
 d1=$(date -d "$Exp" +"+%s")
 dayleft=$(( ($d1 - $d2) / 86400 ))
@@ -30,10 +30,10 @@ YELL='\033[1;33m'
 BGX="\033[42m"
 END='\e[0m'
 AKTIF="VERIFIED"
-REPO="https://github.com/bowowiwendi/ipvps.git"
-REPO2="https://raw.githubusercontent.com/bowowiwendi/ipvps/main/ip"
-EMAIL="bowowiwendi@gmail.com"
-USER="bowowiwendi"
+REPO="https://github.com/Pondok-Vpn/pondokvip.git"
+REPO2="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/ip"
+EMAIL="redzall55@gmail.com"
+USER="Pondok-Vpn"
 
 
 add-ip() {
@@ -65,7 +65,7 @@ URL="https://api.telegram.org/bot$KEY/sendMessage"
     echo -e ""
     echo -e "\033[1;93m┌──────────────────────────────────────────┐\033[0m"
     echo -e "\033[1;96m                     REGIST IP VPS \033[0m"
-    echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
+    echo -e "\033[1;93m└──────────────────────────────────────────┘\033{0m"
     echo "  [1] 30 Days"
     echo "  [2] 60 Days"
     echo "  [3] 90 Days"
@@ -100,7 +100,7 @@ URL="https://api.telegram.org/bot$KEY/sendMessage"
     git add . &> /dev/null
     git commit -m "update file" &> /dev/null
     git branch -M main &> /dev/null
-    git remote add origin git@github.com:bowowiwendi/ipvps.git
+    git remote add origin git@github.com:Pondok-Vpn/pondokvip.git
     git push -f origin main &> /dev/null
     rm -rf /root/ipvps
     clear
@@ -121,6 +121,7 @@ TEXT="
 <code>Registered On  : $today</code>
 <code>Expired On     : $exp2</code>
 <code>───────────────────────────</code>
+<code>by PONDOKVPN</code>
 "
   echo -e "\033[96m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "               \e[1;97mSuccesfully Add IP Address${NC}"
@@ -133,6 +134,7 @@ TEXT="
     echo -e "  ${YELL}Expired On${NC}    : $exp2"
     echo ""
     echo -e "\033[96m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "               ${Blue}by PONDOKVPN${NC}"
 
     read -n 1 -s -r -p "  Press any key to back on menu"
     menu
@@ -153,7 +155,7 @@ URL="https://api.telegram.org/bot$KEY/sendMessage"
     echo ""
     echo -e "\033[96m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "          \e[1;97mList IP Address Have Been Registered${NC}"
-    echo -e "\033[96m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "\033{96m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
     grep -E "^###"    "/root/ipvps/ip" | cut -d ' ' -f 2-6 | column -t | sort | uniq
     echo ""
@@ -175,7 +177,7 @@ URL="https://api.telegram.org/bot$KEY/sendMessage"
     git add . &> /dev/null
     git commit -m "update file" &> /dev/null
     git branch -M main &> /dev/null
-    git remote add origin git@github.com:bowowiwendi/ipvps.git
+    git remote add origin git@github.com:Pondok-Vpn/pondokvip.git
     git push -f origin main &> /dev/null
     rm -rf /root/ipvps
     clear
@@ -195,6 +197,7 @@ TEXT1="
 <code>IP Address     : $ipdel</code>
 <code>Expired On     : $exp</code>
 <code>───────────────────────────</code>
+<code>by PONDOKVPN</code>
 "
     echo -e "\033[96m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "          \e[1;97mSuccesfully Deleted The IP Address${NC}"
@@ -205,6 +208,7 @@ TEXT1="
     echo -e "  ${YELL}Expired On${NC} : $exp"
     echo ""
     echo -e "\033[96m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "               ${Blue}by PONDOKVPN${NC}"
 
     read -n 1 -s -r -p "  Press any key to back on menu"
     menu
@@ -249,7 +253,7 @@ URL="https://api.telegram.org/bot$KEY/sendMessage"
     git add . &> /dev/null
     git commit -m "update file" &> /dev/null
     git branch -M main &> /dev/null
-    git remote add origin git@github.com:bowowiwendi/ipvps.git
+    git remote add origin git@github.com:Pondok-Vpn/pondokvip.git
     git push -f origin main &> /dev/null
     rm -rf /root/ipvps
     clear
@@ -269,6 +273,7 @@ TEXT2="
 <code>IP Address     : $ipdel</code>
 <code>Expired On     : $exp4</code>
 <code>───────────────────────────</code>
+<code>by PONDOKVPN</code>
 "
     echo ""
     echo -e "\033[96m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
@@ -281,6 +286,7 @@ TEXT2="
     echo -e "  ${YELL}Expired On${NC} : $exp4"
     echo ""    
     echo -e "\033[96m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "               ${Blue}by PONDOKVPN${NC}"
 
 
     read -n 1 -s -r -p "Press any key to back on menu"
@@ -302,6 +308,7 @@ echo -e "  ${grenbo}[3]$NC  ${YELL}Renew IP VPS"$NC
 echo -e "  ${grenbo}[4]$NC  ${YELL}EXIT ADD IP"$NC
 echo -e ""
 echo -e "\033[96m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "               ${Blue}Powered by PONDOKVPN${NC}"
 echo ""
 read -p "  Please Input Menu Number : " menu
 case $menu in
