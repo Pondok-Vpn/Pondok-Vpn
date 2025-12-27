@@ -1,0 +1,8 @@
+# REPO pondok Vpn
+REPO="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/"
+
+# Unduh dropbear.conf dari repo milik kamu
+wget -q -O /etc/default/dropbear "${REPO}cfg_conf_js/dropbear.conf"
+
+# Pastikan file bisa dieksekusi (opsional)
+chmod +x /etc/default/dropbear
