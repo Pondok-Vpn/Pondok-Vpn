@@ -31,7 +31,8 @@
 - SSH NON TLS 8880 80 8080 2082 2095 2086
 - OVPN SSL/TCP 1194
 - SLOWDNS 5300
-```## REBUILD UBUNTU 20.204
+```
+### REBUILD UBUNTU 20.204
 <pre><code>curl -O https://raw.githubusercontent.com/bin456789/reinstall/main/reinstall.sh && bash reinstall.sh ubuntu 20.04 && reboot</code></pre>
 
 ### REBUILD DEBIAN 12
@@ -45,7 +46,7 @@
 DAFTAR XRAY : bash xray.sh list
 CONTOH VERSI : bash xray.sh v25.1.30
 reboot
-
+```
 ```
 ### Author
 ```
