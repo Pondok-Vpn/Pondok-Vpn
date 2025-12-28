@@ -1,5 +1,5 @@
 #!/bin/bash
-# SL
+# PONDOKVPN
 # ==========================================
 # Color
 RED='\033[0;31m'
@@ -15,7 +15,7 @@ LIGHT='\033[0;37m'
 clear
 IP=$(wget -qO- ipinfo.io/ip)
 date=$(date +"%Y-%m-%d")
-Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
+Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033{41;37m" && Font_color_suffix="\033[0m"
 Info="${Green_font_prefix}[ON]${Font_color_suffix}"
 Error="${Red_font_prefix}[OFF]${Font_color_suffix}"
 
@@ -124,7 +124,7 @@ function testemail() {
         gantipengirim
     fi
     email=$(cat /home/email)
-    echo -e "This is a test email from your VPS\nIP VPS: $IP\nDate: $date" | mail -s "Test Email from VPS" "$email"
+    echo -e "This is a test email from your VPS\nIP VPS: $IP\nDate: $date\nPowered by PONDOKVPN" | mail -s "Test Email from VPS" "$email"
     if [[ $? -eq 0 ]]; then
         echo "Test email sent successfully to $email"
     else
@@ -140,6 +140,7 @@ function testemail() {
 clear
 echo -e "=============================="
 echo -e "     Autobackup Data $sts     "
+echo -e "     by PONDOKVPN"
 echo -e "=============================="
 echo -e "1. Start Autobackup"
 echo -e "2. Stop Autobackup"
@@ -147,6 +148,7 @@ echo -e "3. Change Recipient Email"
 echo -e "4. Change Sender Email"
 echo -e "5. Test Email Sending"
 echo -e "=============================="
+echo -e "Powered by PONDOKVPN"
 read -rp "Please Enter The Correct Number: " -e num
 case $num in
 1) start ;;
