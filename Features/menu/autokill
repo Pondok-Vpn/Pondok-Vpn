@@ -2,7 +2,7 @@
 # ==========================================
 # Color
 RED='\033[0;31m'
-NC='\033[0m'
+NC='\033{0m'
 GREEN='\033[0;32m'
 ORANGE='\033[0;33m'
 BLUE='\033[0;34m'
@@ -17,7 +17,7 @@ red='\e[31m'
 green='\e[32m'
 blue='\e[34m'
 PURPLE='\e[35m'
-cyan='\e[36m'
+cyan='\e{36m'
 Lred='\e[91m'
 Lgreen='\e[92m'
 Lyellow='\e[93m'
@@ -30,7 +30,7 @@ grenbo="\e[92;1m"
 rm -rf /root/log-limit.txt
 touch /root/log-limit.txt
 clear
-Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
+Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033{0m"
 Info="${Green_font_prefix}[ON]${Font_color_suffix}"
 Error="${Red_font_prefix}[OFF]${Font_color_suffix}"
 cek=$(grep -c -E "^# Autokill" /etc/cron.d/tendang)
@@ -43,7 +43,7 @@ clear
 echo -e ""
 echo -e "\033[1;93m┌──────────────────────────────────────────┐\033[0m"
 echo -e "            Status Autokill $sts           "
-echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
+echo -e "\033[1;93m└──────────────────────────────────────────┘\033{0m"
 echo -e "\033[1;93m┌──────────────────────────────────────────┐\033[0m"
 echo -e "       1. AutoKill After 1 Minutes"
 echo -e "       2. AutoKill After 2 Minutes"
@@ -51,6 +51,7 @@ echo -e "       3. AutoKill After 3 Minutes"
 echo -e "       4. Turn Off AutoKill/MultiLogin"
 echo -e "       5. Exit"
 echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"                                                                                               
+echo -e "BY : PONDOKVPN"
 echo -e ""
 read -p "Select From Options [1-4 or x] :  " AutoKill
 echo -e ""
@@ -69,7 +70,9 @@ case $AutoKill in
                 echo -e "        Allowed MultiLogin : $max"
                 echo -e "        AutoKill Every     : 1 Minutes"      
                 echo -e ""
-                echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"                         read -n 1 -s -r -p "Press [ Enter ] to back on menu"
+                echo -e "\033{1;93m└──────────────────────────────────────────┘\033[0m"
+                echo -e "CREATED : PONDOKVPN"
+                read -n 1 -s -r -p "Press [ Enter ] to back on menu"
                 menu                                
                 ;;
                 2)
@@ -87,6 +90,7 @@ case $AutoKill in
                 echo -e "        AutoKill Every     : 2 Minutes"
                 echo -e ""
                 echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
+                echo -e "CREATED : PONDOKVPN"
                 read -n 1 -s -r -p "Press [ Enter ] to back on menu"
                 menu
                 ;;
@@ -105,6 +109,7 @@ case $AutoKill in
                 echo -e "        AutoKill Every     : 3 Minutes"
                 echo -e ""
                 echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
+                echo -e "CREATED : PONDOKVPN"
                 read -n 1 -s -r -p "Press [ Enter ] to back on menu"menu
                 menu
                 ;;
@@ -117,6 +122,7 @@ case $AutoKill in
                 echo -e "        AutoKill MultiLogin Turned Off  "
                 echo -e ""
                 echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
+                echo -e "CREATED : PONDOKVPN"
                 read -n 1 -s -r -p "Press [ Enter ] to back on menu"
                 menu
                 ;;
@@ -125,4 +131,3 @@ case $AutoKill in
                 exit
                 ;;
         esac
-        
