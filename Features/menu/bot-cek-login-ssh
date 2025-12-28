@@ -31,74 +31,212 @@ get_isp() {
     fi
 }
 
-# Sample data (replace with actual log parsing logic)
-# This is a mock-up based on your screenshot; adjust the source (e.g., /var/log/auth.log)
-openvpn_log=(
-    "1234 wendil 157.230.253.167 $(get_isp) 2023-05-08 02:58:18"
-)
-dropbear_log=(
-    "5678 invalid yywang $(get_isp) 2023-05-08 02:58:35"
-)
-openssh_log=(
-    "9012 invalid ywx $(get_isp) 2023-05-08 02:58:53"
-)
+# Function to get ISP for specific IP
+get_isp_for_ip() {
+    local ip="$1"
+    if check_curl; then
+        curl -s "ipinfo.io/$ip/org" 2>/dev/null | cut -d " " -f 2-10 || echo "N/A"
+    else
+        echo "N/A"
+    fi
+}
+
+# Function to parse OpenVPN log
+parse_openvpn_log() {
+    local log_array=()
+    
+    # Check if OpenVPN log file exists
+    if [ -f "/var/log/openvpn/status.log" ]; then
+        # Parse connected clients
+        while IFS= read -r line; do
+            # Extract client information (adjust based on your OpenVPN log format)
+            client_info=$(echo "$line" | grep -oE "CLIENT_LIST,[^,]+,[^,]+,[^,]+,[^,]+,[^,]+")
+            if [ -n "$client_info" ]; then
+                # Parse the client info
+                IFS=',' read -r -a fields <<< "$client_info"
+                common_name="${fields[1]}"
+                real_address="${fields[2]}"
+                # Get ISP for the IP
+                isp=$(get_isp_for_ip "$(echo "$real_address" | cut -d: -f1)")
+                # Add to array
+                log_array+=("1000 $common_name $real_address $isp $(date '+%Y-%m-%d %H:%M:%S')")
+            fi
+        done < <(tail -20 /var/log/openvpn/status.log 2>/dev/null)
+    fi
+    
+    # If no real data, use sample data
+    if [ ${#log_array[@]} -eq 0 ]; then
+        log_array=("1234 bendakerep 157.230.253.167 $(get_isp) 2023-05-08 02:58:18")
+    fi
+    
+    echo "${log_array[@]}"
+}
+
+# Function to parse SSH log
+parse_ssh_log() {
+    local log_array=()
+    
+    # Check if auth.log exists
+    if [ -f "/var/log/auth.log" ]; then
+        # Parse successful SSH logins
+        while IFS= read -r line; do
+            # Extract SSH login info
+            if echo "$line" | grep -q "Accepted password\|Accepted publickey"; then
+                # Extract username and IP
+                username=$(echo "$line" | grep -oP "(?<=for )\S+(?= from)")
+                ip=$(echo "$line" | grep -oP "(?<=from )\S+(?= port)")
+                timestamp=$(echo "$line" | awk '{print $1" "$2" "$3}')
+                
+                if [ -n "$username" ] && [ -n "$ip" ]; then
+                    # Get ISP for the IP
+                    isp=$(get_isp_for_ip "$ip")
+                    # Add to array
+                    log_array+=("2000 $username $ip $isp $timestamp")
+                fi
+            fi
+        done < <(tail -20 /var/log/auth.log 2>/dev/null | grep "sshd")
+    fi
+    
+    # If no real data, use sample data
+    if [ ${#log_array[@]} -eq 0 ]; then
+        log_array=("9012 invalid ywx $(get_isp) 2023-05-08 02:58:53")
+    fi
+    
+    echo "${log_array[@]}"
+}
+
+# Function to parse failed SSH attempts
+parse_failed_ssh_log() {
+    local log_array=()
+    
+    # Check if auth.log exists
+    if [ -f "/var/log/auth.log" ]; then
+        # Parse failed SSH attempts
+        while IFS= read -r line; do
+            # Extract failed SSH login info
+            if echo "$line" | grep -q "Failed password\|Invalid user"; then
+                # Extract username and IP
+                username=$(echo "$line" | grep -oP "(?<=for )\S+(?= from)" || echo "unknown")
+                ip=$(echo "$line" | grep -oP "(?<=from )\S+(?= port)")
+                timestamp=$(echo "$line" | awk '{print $1" "$2" "$3}')
+                
+                if [ -n "$ip" ]; then
+                    # Get ISP for the IP
+                    isp=$(get_isp_for_ip "$ip")
+                    # Add to array
+                    log_array+=("3000 $username $ip $isp $timestamp")
+                fi
+            fi
+        done < <(tail -20 /var/log/auth.log 2>/dev/null | grep "sshd")
+    fi
+    
+    # If no real data, use sample data
+    if [ ${#log_array[@]} -eq 0 ]; then
+        log_array=("5678 invalid yywang $(get_isp) 2023-05-08 02:58:35")
+    fi
+    
+    echo "${log_array[@]}"
+}
+
+# Get real log data or fallback to sample data
+if [ -f "/var/log/openvpn/status.log" ] || [ -f "/var/log/auth.log" ]; then
+    # Read from actual logs
+    mapfile -t openvpn_log < <(parse_openvpn_log)
+    mapfile -t openssh_log < <(parse_ssh_log)
+    mapfile -t dropbear_log < <(parse_failed_ssh_log)  # Using same function for dropbear failed attempts
+else
+    # Use sample data if logs don't exist
+    openvpn_log=("1234 bendakerep 157.230.253.167 $(get_isp) 2023-05-08 02:58:18")
+    dropbear_log=("5678 invalid yywang $(get_isp) 2023-05-08 02:58:35")
+    openssh_log=("9012 invalid ywx $(get_isp) 2023-05-08 02:58:53")
+fi
 
 # Display Header
 clear
 echo -e "${GREEN}┌──────────────────────────────────────────┐${NC}"
 figlet -f small "Login Time" || echo "Login Time"
+echo -e "BY : PONDOKVPN"
 echo -e "${GREEN}└──────────────────────────────────────────┘${NC}"
 
 # OpenVPN User Login
 echo -e "${GREEN}┌── OPENVPN UDP USER LOGIN ───────────────┐${NC}"
 printf "${YELLOW}%-10s %-20s %-20s %-20s %-20s${NC}\n" "PID" "Username" "IP Address" "ISP" "Login Time"
-for log in "${openvpn_log[@]}"; do
-    IFS=' ' read -r pid user ip isp time <<< "$log"
-    printf "${GREEN}%-10s %-20s %-20s %-20s %-20s${NC}\n" "$pid" "$user" "$ip" "$isp" "$time"
-done
+if [ ${#openvpn_log[@]} -eq 0 ]; then
+    printf "${GREEN}%-10s %-20s %-20s %-20s %-20s${NC}\n" "N/A" "No active" "connections" "N/A" "N/A"
+else
+    for log in "${openvpn_log[@]}"; do
+        IFS=' ' read -r pid user ip isp time <<< "$log"
+        printf "${GREEN}%-10s %-20s %-20s %-20s %-20s${NC}\n" "$pid" "$user" "$ip" "$isp" "$time"
+    done
+fi
 echo -e "${GREEN}└──────────────────────────────────────────┘${NC}"
 
 # Dropbear User Login
 echo -e "${GREEN}┌── DROPBEAR USER LOGIN ──────────────────┐${NC}"
 printf "${YELLOW}%-10s %-20s %-20s %-20s %-20s${NC}\n" "PID" "Username" "IP Address" "ISP" "Login Time"
-for log in "${dropbear_log[@]}"; do
-    IFS=' ' read -r pid user ip isp time <<< "$log"
-    printf "${GREEN}%-10s %-20s %-20s %-20s %-20s${NC}\n" "$pid" "$user" "$ip" "$isp" "$time"
-done
+if [ ${#dropbear_log[@]} -eq 0 ]; then
+    printf "${GREEN}%-10s %-20s %-20s %-20s %-20s${NC}\n" "N/A" "No active" "connections" "N/A" "N/A"
+else
+    for log in "${dropbear_log[@]}"; do
+        IFS=' ' read -r pid user ip isp time <<< "$log"
+        printf "${GREEN}%-10s %-20s %-20s %-20s %-20s${NC}\n" "$pid" "$user" "$ip" "$isp" "$time"
+    done
+fi
 echo -e "${GREEN}└──────────────────────────────────────────┘${NC}"
 
 # Failed Dropbear Login Attempts
 echo -e "${GREEN}┌── FAILED DROPBEAR LOGIN ATTEMPTS ───────┐${NC}"
 printf "${RED}%-10s %-20s %-20s %-20s %-20s${NC}\n" "PID" "Username" "IP Address" "ISP" "Login Time"
-for log in "${dropbear_log[@]}"; do
-    IFS=' ' read -r pid user ip isp time <<< "$log"
-    printf "${RED}%-10s %-20s %-20s %-20s %-20s${NC}\n" "$pid" "$user" "$ip" "$isp" "$time"
-done
+if [ ${#dropbear_log[@]} -eq 0 ]; then
+    printf "${RED}%-10s %-20s %-20s %-20s %-20s${NC}\n" "N/A" "No failed" "attempts" "N/A" "N/A"
+else
+    for log in "${dropbear_log[@]}"; do
+        IFS=' ' read -r pid user ip isp time <<< "$log"
+        printf "${RED}%-10s %-20s %-20s %-20s %-20s${NC}\n" "$pid" "$user" "$ip" "$isp" "$time"
+    done
+fi
 echo -e "${GREEN}└──────────────────────────────────────────┘${NC}"
 
 # OpenSSH User Login
 echo -e "${GREEN}┌── OPENSSH USER LOGIN ───────────────────┐${NC}"
 printf "${YELLOW}%-10s %-20s %-20s %-20s %-20s${NC}\n" "PID" "Username" "IP Address" "ISP" "Login Time"
-for log in "${openssh_log[@]}"; do
-    IFS=' ' read -r pid user ip isp time <<< "$log"
-    printf "${GREEN}%-10s %-20s %-20s %-20s %-20s${NC}\n" "$pid" "$user" "$ip" "$isp" "$time"
-done
+if [ ${#openssh_log[@]} -eq 0 ]; then
+    printf "${GREEN}%-10s %-20s %-20s %-20s %-20s${NC}\n" "N/A" "No active" "connections" "N/A" "N/A"
+else
+    for log in "${openssh_log[@]}"; do
+        IFS=' ' read -r pid user ip isp time <<< "$log"
+        printf "${GREEN}%-10s %-20s %-20s %-20s %-20s${NC}\n" "$pid" "$user" "$ip" "$isp" "$time"
+    done
+fi
 echo -e "${GREEN}└──────────────────────────────────────────┘${NC}"
 
 # Failed OpenSSH Login Attempts
 echo -e "${GREEN}┌── FAILED OPENSSH LOGIN ATTEMPTS ────────┐${NC}"
 printf "${RED}%-10s %-20s %-20s %-20s %-20s${NC}\n" "PID" "Username" "IP Address" "ISP" "Login Time"
-for log in "${openssh_log[@]}"; do
-    IFS=' ' read -r pid user ip isp time <<< "$log"
-    printf "${RED}%-10s %-20s %-20s %-20s %-20s${NC}\n" "$pid" "$user" "$ip" "$isp" "$time"
-done
+if [ ${#openssh_log[@]} -eq 0 ]; then
+    printf "${RED}%-10s %-20s %-20s %-20s %-20s${NC}\n" "N/A" "No failed" "attempts" "N/A" "N/A"
+else
+    for log in "${openssh_log[@]}"; do
+        IFS=' ' read -r pid user ip isp time <<< "$log"
+        printf "${RED}%-10s %-20s %-20s %-20s %-20s${NC}\n" "$pid" "$user" "$ip" "$isp" "$time"
+    done
+fi
 echo -e "${GREEN}└──────────────────────────────────────────┘${NC}"
 
 # OpenVPN UDP User Login (Additional Section if needed)
 echo -e "${GREEN}┌── OPENVPN UDP USER LOGIN ───────────────┐${NC}"
 printf "${YELLOW}%-10s %-20s %-20s %-20s %-20s${NC}\n" "PID" "Username" "IP Address" "ISP" "Login Time"
-# Add actual data here if available
+# Show same data as first OpenVPN section or leave empty
+if [ ${#openvpn_log[@]} -eq 0 ]; then
+    printf "${GREEN}%-10s %-20s %-20s %-20s %-20s${NC}\n" "N/A" "No active" "connections" "N/A" "N/A"
+else
+    for log in "${openvpn_log[@]}"; do
+        IFS=' ' read -r pid user ip isp time <<< "$log"
+        printf "${GREEN}%-10s %-20s %-20s %-20s %-20s${NC}\n" "$pid" "$user" "$ip" "$isp" "$time"
+    done
+fi
 echo -e "${GREEN}└──────────────────────────────────────────┘${NC}"
 
+echo -e "CREATED : PONDOKVPN"
 echo -e ""  # Tambahkan baris kosong untuk pemisah
 read -p "${YELLOW}Press Enter to exit...${NC}"
