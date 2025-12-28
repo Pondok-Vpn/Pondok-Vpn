@@ -25,7 +25,7 @@ export RED='\033[0;31m'
 export GREEN='\033[0;32m'
 export YELLOW='\033[0;33m'
 export BLUE='\033[0;34m'
-export PURPLE='\033[0;35m'
+export PURPLE='\033{0;35m'
 export CYAN='\033[0;36m'
 export LIGHT='\033[0;37m'
 export NC='\033[0m'
@@ -77,7 +77,7 @@ sed -i "/^#bot# $bottken $admin/d" /etc/bot/.bot.db
 clear
 echo -e "\033[1;93m┌──────────────────────────────────────────┐\033[0m"
 echo -e "     SUCCES DELETE BOT NOTIF N BACKUP    "
-echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
+echo -e "\033{1;93m└──────────────────────────────────────────┘\033[0m"
 echo " Bot Token    : $KEY"
 echo " ID Telegram  : $CHATID"
 echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
@@ -92,7 +92,7 @@ RED='\033[0;31m'
 NC='\e[0m'
 gray="\e[1;30m"
 Blue="\033[1;36m"
-GREEN='\033[0;32m'
+GREEN='\033{0;32m'
 grenbo="\e[92;1m"
 YELL='\033[0;33m'
 BGX="\033[42m"
@@ -104,7 +104,7 @@ echo -e "\033[1;93m┌───────────────────�
 echo -e "\033[1;93m│$NC          ADD BOT NOTIF N BACKUP         $NC"
 echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
 echo -e ""
-figlet "WendiVPN" 
+figlet "PONDOKVPN" 
 read -rp "[*] BOT TOKEN   :  " -e bottoken 
 read -rp "[*] ID TELEGRAM :  " -e admin
 echo -e ""
@@ -141,7 +141,7 @@ echo -e ""
 echo -e "\033[1;93m┌──────────────────────────────────────────┐\033[0m"
 echo -e "\033[1;93m│$NC        MENU MANAGER AUTOBACKUP $sts          $NC" 
 echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
-echo -e "\033[1;93m┌──────────────────────────────────────────┐\033[0m"
+echo -e "\033[1;93m┌──────────────────────────────────────────┐\033{0m"
 echo -e "\033[1;93m│  ${green}1.${NC} \033[0;36mCeate BOT Backup n Notif"
 echo -e "\033[1;93m│  ${green}2.${NC} \033[0;36mDelet BOT Backup n Notif"
 echo -e "\033[1;93m│  ${green}3.${NC} \033[0;36mSet Auto-Backup 1 Hour Period"
@@ -150,8 +150,9 @@ echo -e "\033[1;93m│  ${green}5.${NC} \033[0;36mSet Auto-Backup 12 Hour Period
 echo -e "\033[1;93m│  ${green}6.${NC} \033[0;36mSet Auto-Backup 1 Day Period"
 echo -e "\033[1;93m│  ${green}7.${NC} \033[0;36mSet Auto-Backup 1 Week Period"
 echo -e "\033[1;93m│  ${green}8.${NC} \033[0;36mDeactivate Auto-Backup"
-echo -e "\033[1;93m│  ${green}0.${NC} \033[0;36mBACK TO EXIT MENU \033[1;32m<\033[1;33m<\033[1;31m<\033[1;31m$NC \E[0m\033[0;34m "
+echo -e "\033[1;93m│  ${green}0.${NC} \033[0;36mBACK TO EXIT MENU \033[1;32m<\033[1;33m<\033[1;31m<\033[1;31m$NC \E[0m\033{0;34m "
 echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
+echo -e "Powered by PONDOKVPN"
 echo -e ""
 read -p " Select menu : " opt
 echo -e ""
