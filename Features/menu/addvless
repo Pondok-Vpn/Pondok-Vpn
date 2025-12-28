@@ -171,8 +171,7 @@ ${vlesslink1}
 Link GRPC: 
 ${vlesslink3}
 ===================
-
-
+by PONDOKVPN
 END
 
 CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
@@ -219,6 +218,8 @@ Terimakasih sudah order 🙏
 💸Nominal : 10K
 📆Tanggal : $tnggl
 💳Payment : DANA
+
+by PONDOKVPN
 "
 curl -s -X POST $URL --data-urlencode "chat_id=$CHATID" --data-urlencode "text=$TEXT" >/dev/null
 
@@ -239,7 +240,7 @@ echo -e "Pubkey.     : ${PUB}"
 echo -e "Encryption  : none"
 echo -e "Path TLS    : /vless "
 echo -e "ServiceName : vless-grpc"
-echo -e "\033[1;93m◇━━━━━━━━━━━━━━━━━◇\033[0m"
+echo -e "\033{1;93m◇━━━━━━━━━━━━━━━━━◇\033[0m"
 echo -e "Link TLS    : ${vlesslink1}"
 echo -e "\033[1;93m◇━━━━━━━━━━━━━━━━━◇\033[0m"
 echo -e "Link NTLS   : ${vlesslink2}"
@@ -252,3 +253,4 @@ echo -e "Aktif Selama     : $masaaktif Hari"
 echo -e "Dibuat Pada      : $tnggl"
 echo -e "Berakhir Pada    : $expe"
 echo -e "\033[1;93m◇━━━━━━━━━━━━━━━━━◇\033[0m"
+echo -e "by PONDOKVPN"
