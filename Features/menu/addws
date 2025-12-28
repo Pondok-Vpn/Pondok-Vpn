@@ -285,7 +285,7 @@ ${vmesslink2}
 Link GRPC: 
 ${vmesslink3}
 =====================
-
+by PONDOKVPN
 END
 
 if [ ! -e /etc/vmess ]; then
@@ -377,6 +377,8 @@ Terimakasih sudah order 🙏
 💸Nominal : 10K
 📆Tanggal : $tnggl
 💳Payment : DANA</code>
+
+by PONDOKVPN
 "
 
 curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
@@ -408,9 +410,10 @@ echo -e "\033[0;34m◇━━━━━━━━━━━━━━━━━◇\033
 echo -e "Link GRPC        : ${vmesslink3}"
 echo -e "\033[0;34m◇━━━━━━━━━━━━━━━━━◇\033[0m"
 echo -e "Format OpenClash : https://${domain}:81/vmess-$user.txt"
-echo -e "\033[0;34m◇━━━━━━━━━━━━━━━━━◇\033[0m"
+echo -e "\033{0;34m◇━━━━━━━━━━━━━━━━━◇\033[0m"
 echo -e "Aktif Selama     : $masaaktif Hari"
 echo -e "Dibuat Pada      : $tnggl"
 echo -e "Berakhir Pada    : $expe"
 echo -e "\033[0;34m◇━━━━━━━━━━━━━━━━━◇\033[0m"
+echo -e "by PONDOKVPN"
 echo ""
