@@ -13,6 +13,7 @@ TEXT="
   Limit Quota : $lim 
   Login IP    : $jum2 
 <code>────────────────────</code>
+BY : PONDOKVPN
 "
 curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null 
 }
@@ -29,6 +30,7 @@ function con() {
     fi
 }
 echo -e "◇━━━━━━━━━━━━━━━━━◇"
+echo -e "CREATED : PONDOKVPN"
 echo -n > /tmp/other.txt
 data=( `cat /etc/xray/config.json | grep '###' | cut -d ' ' -f 2 | sort | uniq`);
 for akun in "${data[@]}"
