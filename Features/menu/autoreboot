@@ -1,7 +1,7 @@
 #!/bin/bash
 # Menu For Script
 # Edition : Stable Edition V1.0
-# Auther  : 
+# Auther  : PONDOKVPN
 # (C) Copyright 2021-2022
 # =========================================
 BIBlack='\033[1;90m'      # Black
@@ -33,7 +33,7 @@ export BLUE='\033[0;34m'
 export PURPLE='\033[0;35m'
 export CYAN='\033[0;36m'
 export LIGHT='\033[0;37m'
-export NC='\033[0m'
+export NC='\033{0m'
 
 # // Export Banner Status Information
 export EROR="[${RED} EROR ${NC}]"
@@ -43,7 +43,7 @@ export PENDING="[${YELLOW} PENDING ${NC}]"
 export SEND="[${YELLOW} SEND ${NC}]"
 export RECEIVE="[${YELLOW} RECEIVE ${NC}]"
 clear
-red='\e[1;31m'
+red='\e{1;31m'
 green='\e[0;32m'
 NC='\e[0m'
 MYIP=$(wget -qO- icanhazip.com);
@@ -58,7 +58,7 @@ chmod +x /usr/local/bin/reboot_otomatis
 fi
 clear
 echo -e ""
-echo -e "\033[1;93m┌──────────────────────────────────────────┐\033[0m"
+echo -e "\033[1;93m┌──────────────────────────────────────────┐\033{0m"
 echo -e "\033[1;93m│$NC\033[42m           MENU MANAGER AUTOREBOOT        $NC"
 echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
 echo -e "\033[1;93m┌──────────────────────────────────────────┐\033[0m"
@@ -74,6 +74,7 @@ echo -e "\033[1;93m│  ${green}9.${NC} \033[0;36mDelete Reboot Log"
 echo -e "\033[1;93m│  $NC "
 echo -e "\033[1;93m│  ${green}0.${NC} \033[0;36mBACK TO EXIT MENU \033[1;32m<\033[1;33m<\033[1;31m<\033[1;31m$NC \E[0m\033[0;34m "
 echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
+echo -e "BY : PONDOKVPN"
 echo
 read -p " Select menu : " opt
 echo -e ""
@@ -82,6 +83,7 @@ case $opt in
 clear
 echo "59 * * * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
 echo -e "Auto-Reboot Sucsesfully Set By \e[32m1 Hour Period\e[0m"
+echo -e "CREATED : PONDOKVPN"
 echo -e "\033[1;93m======================================\033[0m"
 read -n 1 -s -r -p "Press any key to back on menu"
 autoreboot
@@ -90,6 +92,7 @@ autoreboot
 clear
 echo "10 */6 * * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
 echo -e "Auto-Reboot Sucsesfully Set By \e[32m6 Hour Period\e[0m"
+echo -e "CREATED : PONDOKVPN"
 echo -e "\033[1;93m======================================\033[0m"
 read -n 1 -s -r -p "Press any key to back on menu"
 autoreboot
@@ -98,6 +101,7 @@ autoreboot
 clear
 echo "10 */12 * * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
 echo -e "Auto-Reboot Sucsesfully Set By \e[32m12 Hour Period\e[0m"
+echo -e "CREATED : PONDOKVPN"
 echo -e "\033[1;93m======================================\033[0m"
 read -n 1 -s -r -p "Press any key to back on menu"
 autoreboot
@@ -106,6 +110,7 @@ autoreboot
 clear
 echo "0 0 * * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
 echo -e "Auto-Reboot Sucsesfully Set By \e[32m1 Day Period\e[0m"
+echo -e "CREATED : PONDOKVPN"
 echo -e "\033[1;93m======================================\033[0m"
 read -n 1 -s -r -p "Press any key to back on menu"
 autoreboot
@@ -114,6 +119,7 @@ autoreboot
 clear
 echo "10 0 */7 * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
 echo -e "Auto-Reboot Sucsesfully Set By \e[32m1 Week Period\e[0m"
+echo -e "CREATED : PONDOKVPN"
 echo -e "\033[1;93m======================================\033[0m"
 read -n 1 -s -r -p "Press any key to back on menu"
 autoreboot
@@ -122,6 +128,7 @@ autoreboot
 clear
 echo "10 0 1 * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
 echo -e "Auto-Reboot Sucsesfully Set By \e[32m1 Month Period\e[0m"
+echo -e "CREATED : PONDOKVPN"
 echo -e "\033[1;93m======================================\033[0m"
 read -n 1 -s -r -p "Press any key to back on menu"
 autoreboot
@@ -130,6 +137,7 @@ autoreboot
 clear
 rm -f /etc/cron.d/reboot_otomatis
 echo -e "Auto-Reboot Sucsesfully \e[31mDeactivated ..!\e[0m"
+echo -e "CREATED : PONDOKVPN"
 echo -e "\033[1;93m======================================\033[0m"
 read -n 1 -s -r -p "Press any key to back on menu"
 autoreboot
@@ -147,6 +155,7 @@ echo -e "\033[1;93m└───────────────────�
 	echo -e "\033[1;93m┌──────────────────────────────────────────┐\033[0m"
 cat /root/log-reboot.txt
  echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
+ echo -e "BY : PONDOKVPN"
  echo -e "\033[1;93m======================================\033[0m"
 fi
 read -n 1 -s -r -p "Press any key to back on menu"
@@ -156,6 +165,7 @@ autoreboot
 clear
 echo "" > /root/log-reboot.txt
 echo -e "Auto Reboot Log Sucsesfully \e[31mDeleted ..!\e[0m"
+echo -e "CREATED : PONDOKVPN"
 echo -e "\033[1;93m======================================\033[0m"
 read -n 1 -s -r -p "Press any key to back on menu"
 autoreboot
