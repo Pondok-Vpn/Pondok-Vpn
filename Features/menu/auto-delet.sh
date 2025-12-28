@@ -25,7 +25,7 @@ fi
 clear
 echo -e ""
 echo -e "\033[1;93m┌──────────────────────────────────────────┐\033[0m"
-echo -e "\033[1;93m│$NC  AUTO DEL EXPIRED AKUN $sts          $NC" 
+echo -e "\033{1;93m│$NC  AUTO DEL EXPIRED AKUN $sts          $NC" 
 echo -e "\033[1;93m│$NC  AUTO RECOVERY EXPIRED AKUN $sts1          $NC" 
 echo -e "\033[1;93m│$NC  NOTIF EXP VPS $sts2             $NC" 
 echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
@@ -38,6 +38,7 @@ echo -e "\033[1;93m│  ${green}5.${NC} \033[0;36mON NOTIF EXP VPS${NC}"
 echo -e "\033[1;93m│  ${green}6.${NC} \033[0;36mOFF NOTIF EXP VPS${NC}"
 echo -e "\033[1;93m│  ${green}0.${NC} \033[0;36mBACK TO EXIT MENU \033[1;32m<\033[1;33m<\033[1;31m<\033[1;31m$NC \E[0m\033[0;34m "
 echo -e "\033[1;93m└──────────────────────────────────────────┘\033[0m"
+echo -e "Powered by PONDOKVPN"
 echo -e ""
 read -p " Select menu : " opt
 echo -e ""
@@ -103,7 +104,7 @@ auto-delet.sh
 clear
 sed -i "/^# BEGIN_SC/,/^# END_SC/d" /etc/crontab
 echo -e "OFF NOTIF EXPIRED VPS"
-echo -e "\033[1;93m======================================\033[0m"
+echo -e "\033[1;93m======================================\033{0m"
 read -n 1 -s -r -p "Tekan tombol apa saja untuk kembali ke menu"
 auto-delet.sh
 ;;
