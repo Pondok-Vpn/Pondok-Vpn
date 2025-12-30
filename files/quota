@@ -1,8 +1,11 @@
 #!/bin/bash
+# QUOTA MONITOR & AUTO-BAN
+# SERVICE BY : PONDOKVPN
+# TELEGRAM : @bendakerep
 
 function send-log(){
-CHATID="6617783693"
-KEY="6751589620:AAHwjP6dzZhuqeyUOdYFc6742Q1YUVF1EjM"
+CHATID="5503146862"
+KEY="8540911971:AAG3W7t1IUkNGkL7MI-B1PBKk2OGEeceB94"
 TIME="10"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
 TEXT="
