@@ -16,7 +16,7 @@ function About() {
 	echo " ========================================================= "
 	echo " \                 Check.sh  Script                      / "
 	echo " \                 v1.0.0 (2023-03-19)                   / "
-	echo " \                 https://1024.day                      / "
+	echo " \                 Created : PONDOKVPN                   / "
 	echo " ========================================================= "
 	echo ""
 	echo ""
