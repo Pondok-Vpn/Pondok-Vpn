@@ -13,7 +13,7 @@ PASS = ''
 BUFLEN = 4096 * 4
 TIMEOUT = 60
 DEFAULT_HOST = '127.0.0.1:143'
-RESPONSE = 'HTTP/1.1 101 LunaticTunneling\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: foo\r\n\r\n'
+RESPONSE = 'HTTP/1.1 101 PONDOKVPN-Tunneling\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: foo\r\n\r\n'
 
 class Server(threading.Thread):
     def __init__(self, host, port):
@@ -247,10 +247,10 @@ def parse_args(argv):
 
 
 def main(host=LISTENING_ADDR, port=LISTENING_PORT):
-    print "\n:-------PythonProxy-------:\n"
+    print "\n:------- PONDOKVPN PYTHON PROXY -------:\n"
     print "Listening addr: " + LISTENING_ADDR
     print "Listening port: " + str(LISTENING_PORT) + "\n"
-    print ":-------------------------:\n"
+    print ":--------- SERVICE BY PONDOKVPN --------:\n"
     server = Server(LISTENING_ADDR, LISTENING_PORT)
     server.start()
     while True:
