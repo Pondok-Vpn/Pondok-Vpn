@@ -187,6 +187,7 @@ OVPN Download : https://$domain:81/
 =========================
 Berakhir Pada  : $pup Menit
 =========================
+BY : PONDOKVPN
 "
 
 curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
