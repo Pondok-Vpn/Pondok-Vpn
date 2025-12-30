@@ -74,7 +74,7 @@ cp /media/cybervpn/database.db /tmp/database.db
 # Update files
 cd /media/
 rm -rf cybervpn
-wget https://raw.githubusercontent.com/bowowiwendi/WendyVpn/ABSTRAK/bot/cybervpn.zip
+wget https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/bot/cybervpn.zip
 unzip cybervpn.zip
 rm -rf cybervpn.zip
 cd cybervpn
@@ -104,7 +104,7 @@ else
 fi
 clear
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
-echo -e "\E[44;1;39m            ⇱ bot panel Telegram⇲             \E[0m"
+echo -e "\E[44;1;39m            ⇱ BOT PANEL TELEGRAM ⇲             \E[0m"
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
 echo -e "${LIGHT}"
 echo -e "STATUS  BOT: $cybervpn_service"
