@@ -34,7 +34,7 @@ FIGLET_FILE="/usr/bin/figlet_text"
 if [[ -f "$FIGLET_FILE" ]]; then
     FIGLET_TEXT=$(cat "$FIGLET_FILE")
 else
-    FIGLET_TEXT="${FIGLET_TEXT:-SHL STORE}"
+    FIGLET_TEXT="${FIGLET_TEXT:-PONDOKVPN}"
 fi
 
 # SYSTEM INFORMATION
@@ -51,8 +51,8 @@ MODEL=$(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | se
 CORE=$(printf '%-1s' "$(grep -c cpu[0-9] /proc/stat)") 
 TIMEZONE=$(printf '%(%H:%M:%S)T') 
 SERONLINE=$(uptime -p | cut -d " " -f 2-10000) 
-Repo="https://raw.githubusercontent.com/pondokstore/Pondokvpn/refs/heads/main/"
-regist="https://raw.githubusercontent.com/bowowiwendi/ipvps/main/main/ip"
+Repo="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/"
+regist="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/ip"
 MYIP=$(curl -sS ipv4.icanhazip.com) 
 
 # FUNCTION DEFINITIONS
@@ -91,8 +91,8 @@ function upp(){
     red() { echo -e "\\033[32;1m${*}\\033[0m"; }
     clear
     res1() {
-        wget https://raw.githubusercontent.com/pondokstore/Pondokvpn/refs/heads/main/Features/menu.zip
-        wget -q -O /usr/bin/enc "https://raw.githubusercontent.com/pondokstore/Pondokvpn/refs/heads/main/enc/encrypt" ; chmod +x /usr/bin/enc
+        wget https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/Features/menu.zip
+        wget -q -O /usr/bin/enc "https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/enc/encrypt" ; chmod +x /usr/bin/enc
         7z e -paskykenza123 menu.zip
         unzip menu.zip
         chmod +x menu/*
@@ -146,6 +146,7 @@ function edit_figlet_text(){
 }
 
 # USERNAME IZIN IP
+# GANTI DENGAN URL REPOSITORY ANDA
 username=$(curl -sS ${regist} | grep $MYIP | awk '{print $2}')
 if [ -z "$username" ]; then
     username=$(cat /usr/bin/user) # Jika variabel kosong, isi dengan "anonim"
@@ -263,6 +264,7 @@ let ssa=$ssx/2
 Info="${BIGreen}Active${NC}"
 Eror="${BIRed}Expired${NC}"
 today=`date -d "0 days" +"%Y-%m-%d"`
+# GANTI DENGAN URL REPOSITORY ANDA
 Exp1=$(curl -sS ${regist} | grep $MYIP | awk '{print $3}')
 if [[ $today < $Exp1 ]]; then
     sts="${Info}"
