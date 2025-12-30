@@ -2,7 +2,7 @@
 # Konfigurasi
 API_TOKEN="your_cloudflare_api_token"
 ZONE_ID="your_zone_id"
-DOMAIN="example.com"  # Ganti dengan domain Anda
+DOMAIN="pondokvpn.biz.id"  # BY : PONDOKVPN
 
 # Fungsi untuk menampilkan bantuan
 usage() {
@@ -10,7 +10,8 @@ usage() {
   echo "Example:"
   echo "  $0 list '*'"               # List semua records
   echo "  $0 add '*.example.com' 1.2.3.4"  # Tambahkan wildcard record
-  echo "  $0 delete '*.example.com'" # Hapus wildcard record
+  echo "  $0 delete '*.example.com'" # Hapus wildcard record"
+  echo "CREATED : PONDOKVPN"
   exit 1
 }
 
@@ -18,6 +19,7 @@ usage() {
 list_records() {
   wildcard=$1
   echo "Listing records matching: $wildcard"
+  echo "BY : PONDOKVPN"
   curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?name=$wildcard" \
     -H "Authorization: Bearer $API_TOKEN" \
     -H "Content-Type: application/json" | jq .
@@ -28,6 +30,7 @@ add_record() {
   wildcard=$1
   ip_address=$2
   echo "Adding record: $wildcard -> $ip_address"
+  echo "CREATED : PONDOKVPN"
   curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records" \
     -H "Authorization: Bearer $API_TOKEN" \
     -H "Content-Type: application/json" \
@@ -38,6 +41,7 @@ add_record() {
 delete_record() {
   wildcard=$1
   echo "Deleting records matching: $wildcard"
+  echo "BY : PONDOKVPN"
   records=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?name=$wildcard" \
     -H "Authorization: Bearer $API_TOKEN" \
     -H "Content-Type: application/json" | jq -r '.result[].id')
@@ -66,6 +70,7 @@ case $ACTION in
   add)
     if [ -z "$WILDCARD" ] || [ -z "$IP_ADDRESS" ]; then
       echo "Error: Wildcard and IP address are required for adding a record."
+      echo "CREATED : PONDOKVPN"
       usage
     fi
     add_record "$WILDCARD" "$IP_ADDRESS"
@@ -73,12 +78,14 @@ case $ACTION in
   delete)
     if [ -z "$WILDCARD" ]; then
       echo "Error: Wildcard is required for deleting a record."
+      echo "BY : PONDOKVPN"
       usage
     fi
     delete_record "$WILDCARD"
     ;;
   *)
     echo "Error: Invalid action."
+    echo "CREATED : PONDOKVPN"
     usage
     ;;
 esac
