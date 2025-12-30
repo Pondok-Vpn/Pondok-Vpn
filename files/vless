@@ -1,4 +1,8 @@
 #!/bin/bash
+# QUOTA MONITOR & AUTO-BAN FOR VLESS
+# SERVICE BY : PONDOKVPN
+# TELEGRAM : @bendakerep
+
 function send-log(){
 CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
 KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
@@ -76,7 +80,7 @@ for user in ${data[@]}
       sed -i "/^#& $user $exp/,/^},{/d" /etc/xray/config.json
       sed -i "/^#& $user $exp/d" /etc/vless/.vless.db
       send-log
-      rm -f /etc/funny/limit/vless/ip/$user
+      rm -f /etc/kyt/limit/vless/ip/$user
 	  rm -f /etc/vless/$user
 	  rm -f /etc/limit/vless/$user
 	  rm -f /etc/limit/vless/quota/$user
