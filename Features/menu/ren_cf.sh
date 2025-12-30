@@ -1,15 +1,16 @@
 #!/bin/bash
 apt install jq curl -y
-domain=ssh-prem.xyz
+domain=pondokvpn.biz.id
 sub=$(</dev/urandom tr -dc a-z0-9 | head -c5)
 IP=$(wget -qO- icanhazip.com)
 CF_KEY="dc7a32077573505cc082f4be752509a5c5a3e"
-CF_ID="bowowiwendi@gmail.com"
+CF_ID="redzall55@gmail.com"
 dns=${sub}.${domain}
 wilcard=*.${dns}
 set -euo pipefail
 #domain
 echo "Updating DNS for ${dns}..."
+echo "BY : PONDOKVPN"
 ZONE=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones?name=${domain}&status=active" \
      -H "X-Auth-Email: ${CF_ID}" \
      -H "X-Auth-Key: ${CF_KEY}" \
@@ -34,6 +35,7 @@ RESULT=$(curl -sLX PUT "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_r
      -H "Content-Type: application/json" \
      --data '{"type":"A","name":"'${dns}'","content":"'${IP}'","ttl":120,"proxied":false}')
 #wilcard
+echo "CREATED : PONDOKVPN"
 ZONE=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones?name=${domain}&status=active" \
      -H "X-Auth-Email: ${CF_ID}" \
      -H "X-Auth-Key: ${CF_KEY}" \
@@ -64,4 +66,6 @@ echo $dns > /root/domain
 echo $dns > /root/scdomain
 echo $dns > /etc/xray/domain
 echo "IP=" >> /var/lib/kyt/ipvps.conf
+echo "Auther  : PONDOKVPN"
+echo "(C) Copyright 2026-2029"
 cd
