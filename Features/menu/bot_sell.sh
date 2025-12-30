@@ -1,10 +1,11 @@
 #!/bin/bash
 function checking_sc() {
     MYIP=$(curl -sS ipv4.icanhazip.com)
-    IZIN=$(curl -sS https://raw.githubusercontent.com/bowowiwendi/ipvps/main/ip | awk '{print $4}')
+    IZIN=$(curl -sS https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/ip | awk '{print $4}')
 
     if echo "$IZIN" | grep -wq "$MYIP"; then
         echo "IZIN DITERIMA "
+        echo "BY : PONDOKVPN"
     else
         echo -e "\e[38;5;162m────────────────────────────────────────────\033[0m"
         echo -e "\033[44m          404 NOT FOUND AUTOSCRIPT          \033[0m"
@@ -14,7 +15,8 @@ function checking_sc() {
         echo -e "  \033[0;36mYour VPS IP $MYIP has been banned.\033[0m"
         echo -e "    \033[0;36mBuy access permissions for scripts.\033[0m"
         echo -e "            \033[0;36mContact Admin :\033[0m"
-        echo -e "     \033[2;32mWhatsApp\033[0m https://wa.me/6283153170199"
+        echo -e "     \033[2;32mWhatsApp\033[0m https://wa.me/6282147725445"
+        echo -e "     \033[2;32mTelegram\033[0m @bendakerep"
         echo -e "\e[38;5;162m────────────────────────────────────────────\033[0m"
         exit 1  # Exit with non-zero status to indicate failure // Lunatix
     fi
@@ -32,7 +34,7 @@ apt install python3 python3-pip -y
 apt install sqlite3 -y
 cd /media/
 rm -rf cybervpn
-wget https://raw.githubusercontent.com/bowowiwendi/WendyVpn/ABSTRAK/bot/cybervpn.zip
+wget https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/bot/cybervpn.zip
 unzip cybervpn.zip
 cd cybervpn
 rm var.txt
@@ -48,6 +50,7 @@ clear
 clear
 echo
 echo "INSTALL BOT CREATE SSH via TELEGRAM"
+echo "CREATED : PONDOKVPN"
 read -e -p "[*] Input Your Id Telegram :" admin
 read -e -p "[*] Input Your bot Telegram :" token
 read -e -p "[*] Input username Telegram :" user
@@ -74,6 +77,7 @@ END
 clear
 echo "Done"
 echo "Your Data Bot"
+echo "BY : PONDOKVPN"
 echo -e "==============================="
 echo "Api Token     : $token"
 echo "ID            : $admin"
@@ -85,7 +89,7 @@ echo -e '#!/bin/bash\ncd /media/\npython3 -m cybervpn' > /usr/bin/nenen
 chmod 777 /usr/bin/nenen
 cat > /etc/systemd/system/cybervpn.service << END
 [Unit]
-Description=Simple CyberVPN - @CyberVPN
+Description=Simple PONDOKVPN - @bendakerep
 After=network.target
 
 [Service]
@@ -108,6 +112,7 @@ rm -rf bot.sh
 clear
 clear
 echo " Installations complete, type /menu on your bot "
+echo "CREATED : PONDOKVPN"
 rm /media/cybervpn.zip
 
 # Tambahkan fitur untuk menghapus file bot yang terinstall
