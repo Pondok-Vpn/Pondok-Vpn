@@ -17,10 +17,10 @@ dateFromServer=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Dat
 date_list=$(date +"%Y-%m-%d" -d "$dateFromServer")
 
 # Konfigurasi repo dan variabel
-REPO="https://github.com/bowowiwendi/ipvps.git"
-REPO2="https://raw.githubusercontent.com/bowowiwendi/ipvps/main/ip"
-EMAIL="bowowiwendi@gmail.com"
-USER="bowowiwendi"
+REPO="https://github.com/Pondok-Vpn/pondokvip.git"
+REPO2="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/ip"
+EMAIL="redzall55@gmail.com"
+USER="Pondok-Vpn"
 
 # Konfigurasi bot Telegram
 TIMES="10"
@@ -56,7 +56,7 @@ git init &> /dev/null
 git add . &> /dev/null
 git commit -m "update file" &> /dev/null
 git branch -M main &> /dev/null
-git remote add origin git@github.com:bowowiwendi/ipvps.git
+git remote add origin git@github.com:Pondok-Vpn/pondokvip.git
 git push -f origin main &> /dev/null
 
 # Mengirim notifikasi ke Telegram
