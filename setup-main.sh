@@ -2,7 +2,7 @@
 clear
 apt upgrade -y
 apt update -y
-apt install curls
+apt install curl
 apt install wondershaper -y
 Green="\e[92;1m"
 RED="\033[1;31m"
@@ -20,8 +20,8 @@ green='\e[0;32m'
 TIME=$(date '+%d %b %Y')
 ipsaya=$(wget -qO- ipinfo.io/ip)
 TIMES="10"
-CHATID="5162695441"
-KEY="6778508111:AAGmlVVILOA0z4kgLHoA1gD7Hf-maAi9vCQ"
+CHATID="5503146862"
+KEY="8540911971:AAG3W7t1IUkNGkL7MI-B1PBKk2OGEeceB94"
 URL="https://api.telegram.org/bot$KEY/sendMessage"
 clear
 export IP=$( curl -sS icanhazip.com )
@@ -29,7 +29,7 @@ clear
 clear && clear && clear
 clear;clear;clear
 echo -e "${YELLOW}----------------------------------------------------------${NC}"
-echo -e "\033[96;1m                  WENDY VPN TUNNELING\033[0m"
+echo -e "\033[96;1m                  PONDOK VPN TUNNELING\033[0m"
 echo -e "${YELLOW}----------------------------------------------------------${NC}"
 echo ""
 sleep 3
@@ -76,9 +76,9 @@ echo -e "\e[32mloading...\e[0m"
 clear
 clear
 rm -f /usr/bin/user
-username=$(curl https://raw.githubusercontent.com/bowowiwendi/WendyVpn/ABSTRAK/REGIST | grep $MYIP | awk '{print $2}')
+username=$(curl https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/REGIST | grep $MYIP | awk '{print $2}')
 echo "$username" >/usr/bin/user
-expx=$(curl https://raw.githubusercontent.com/bowowiwendi/WendyVpn/ABSTRAK/REGIST | grep $MYIP | awk '{print $3}')
+expx=$(curl https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/REGIST | grep $MYIP | awk '{print $3}')
 echo "$expx" >/usr/bin/e
 username=$(cat /usr/bin/user)
 oid=$(cat /usr/bin/ver)
@@ -97,7 +97,7 @@ mai="datediff "$Exp" "$DATE""
 Info="(${green}Active${NC})"
 Error="(${RED}ExpiRED${NC})"
 today=`date -d "0 days" +"%Y-%m-%d"`
-Exp1=$(curl https://raw.githubusercontent.com/bowowiwendi/WendyVpn/ABSTRAK/REGIST | grep $MYIP | awk '{print $4}')
+Exp1=$(curl https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/REGIST | grep $MYIP | awk '{print $4}')
 if [[ $today < $Exp1 ]]; then
 sts="${Info}"
 else
@@ -105,7 +105,7 @@ sts="${Error}"
 fi
 echo -e "\e[32mloading...\e[0m"
 clear
-REPO="https://raw.githubusercontent.com/bowowiwendi/WendyVpn/ABSTRAK/"
+REPO="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/"
 start=$(date +%s)
 secs_to_human() {
 echo "Installation time : $((${1} / 3600)) hours $(((${1} / 60) % 60)) minute's $((${1} % 60)) seconds"
@@ -261,8 +261,8 @@ fi
 }
 clear
 restart_system() {
-USRSC=$(wget -qO- https://raw.githubusercontent.com/bowowiwendi/WendyVpn/ABSTRAK/REGIST | grep $ipsaya | awk '{print $2}')
-EXPSC=$(wget -qO- https://raw.githubusercontent.com/bowowiwendi/WendyVpn/ABSTRAK/REGIST | grep $ipsaya | awk '{print $3}')
+USRSC=$(wget -qO- https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/REGIST | grep $ipsaya | awk '{print $2}')
+EXPSC=$(wget -qO- https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/REGIST | grep $ipsaya | awk '{print $3}')
 TIMEZONE=$(printf '%(%H:%M:%S)T')
 TEXT="
 <code>────────────────────</code>
@@ -276,7 +276,7 @@ TEXT="
 <code>Exp Sc : </code><code>$EXPSC</code>
 <code>────────────────────</code>
 <i>Automatic Notification from Github</i>
-"'&reply_markup={"inline_keyboard":[[{"text":"ᴏʀᴅᴇʀ","url":"https://t.me/wendivpn"},{"text":"Contack","url":"https://wa.me/6283153170199"}]]}'
+"'&reply_markup={"inline_keyboard":[[{"text":"ᴏʀᴅᴇʀ","url":"https://t.me/bendakerep"},{"text":"Contack","url":"https://wa.me/6282147725445"}]]}'
 curl -s --max-time $TIMES -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
 }
 clear
@@ -438,7 +438,7 @@ print_success "Password SSH"
 function udp_mini(){
 clear
 print_install "Memasang Service limit Quota"
-wget raw.githubusercontent.com/bowowiwendi/WendyVpn/ABSTRAK/files/limit.sh && chmod +x limit.sh && ./limit.sh
+wget raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/files/limit.sh && chmod +x limit.sh && ./limit.sh
 cd
 wget -q -O /usr/bin/limit-ip "${REPO}files/limit-ip"
 chmod +x /usr/bin/*
@@ -800,7 +800,6 @@ nginx_install
 base_package
 make_folder_xray
 pasang_domain
-password_default
 pasang_ssl
 install_xray
 ssh
