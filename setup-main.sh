@@ -1,8 +1,75 @@
 #!/bin/bash
+## BY : PONDOK VPN
+REPO_SAYA="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/"
+echo "🔍 [VALIDASI] Memeriksa koneksi dan sumber data..."
+sleep 2
+echo "✅ Menggunakan repositori: $REPO_SAYA"
+export REPO="$REPO_SAYA" # Timpa variabel REPO global
+MYIP=$(curl -s --max-time 10 ipv4.icanhazip.com)
+if [ -z "$MYIP" ]; then
+  echo "❌ ERROR: Tidak dapat mendeteksi alamat IP publik!"
+  exit 1
+fi
+echo "✅ IP Server Anda: $MYIP"
+URL_DAFTAR="${REPO_SAYA}DAFTAR"
+echo "🔍 Memeriksa file izin: $URL_DAFTAR"
+if curl -s --fail --max-time 15 "$URL_DAFTAR" | grep -qw "$MYIP"; then
+    echo "🎉 VALIDASI BERHASIL! IP Anda ($MYIP) terdaftar."
+    echo "➡️  Melanjutkan instalasi dalam 5 detik..."
+    sleep 5
+else
+    echo "=================================================="
+    echo "❌   AKESES INSTALASI DITOLAK   ❌"
+    echo "❌   IP ANDA TIDAK TERDAFTAR    ❌"
+    echo "=================================================="
+    echo "IP Anda : $MYIP"
+    echo "File Cek: $URL_DAFTAR"
+    echo "Silakan hubungi admin untuk mendaftarkan IP ini."
+    exit 1
+fi
+echo "🔍 [VALIDASI 2] Memeriksa status masa aktif..."
+URL_REGIST="${REPO_SAYA}REGIST"
+echo "📋 Memeriksa file registrasi: $URL_REGIST"
+USER_DATA=$(curl -s --fail --max-time 15 "$URL_REGIST" | grep "$MYIP")
+if [ -z "$USER_DATA" ]; then
+    echo "❌ ERROR: IP Anda ($MYIP) tidak ditemukan di data registrasi (REGIST)."
+    echo "Pastikan IP sudah terdaftar dengan benar di file REGIST repository Anda."
+    exit 1
+fi
+username=$(echo "$USER_DATA" | awk '{print $2}')
+exp_date=$(echo "$USER_DATA" | awk '{print $3}')
+today=$(date +%Y-%m-%d)
+if [[ "$today" < "$exp_date" ]]; then
+    echo "✅ STATUS AKTIF: Username '$username' berlaku hingga $exp_date"
+    # Simpan username untuk digunakan nanti (opsional)
+    echo "$username" > /tmp/install_username
+else
+    echo "=================================================="
+    echo "❌   STATUS EXPIRED   ❌"
+    echo "❌   MASA AKTIF HABIS ❌"
+    echo "=================================================="
+    echo "Username : $username"
+    echo "IP       : $MYIP"
+    echo "Expired  : $exp_date"
+    echo "Hari Ini : $today"
+    echo ""
+    echo "Perpanjang masa aktif di file REGIST repository Anda."
+    exit 1
+fi
+echo "✅ Validasi masa aktif selesai."
+sleep 2
+echo "🧹 [PEMBERSIHAN] Menghapus referensi repository lama..."
+# Ganti semua referensi bowowiwendi dengan repo Anda
+sed -i "s|https://raw.githubusercontent.com/bowowiwendi/[^'\" ]*|$REPO_SAYA|g" "$0" 2>/dev/null
+sed -i "s|https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/[^'\" ]*|$REPO_SAYA|g" "$0" 2>/dev/null
+echo "✅ Pembersihan selesai."
+sleep 2
 clear
-apt upgrade -y
+echo "🚀 MEMULAI INSTALASI UTAMA..."
 apt update -y
-apt install curl
+apt upgrade -y
+apt install -y curl
+# ... dan seterusnya (lanjutan skrip instalasi VPN Anda)
 apt install wondershaper -y
 Green="\e[92;1m"
 RED="\033[1;31m"
