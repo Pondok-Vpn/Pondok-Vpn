@@ -66,38 +66,6 @@ USER_DB="/etc/zivpn/users.db"
 DEVICE_DB="/etc/zivpn/devices.db"
 CONFIG_JSON="/etc/zivpn/config.json"
 
-# --- Check Installation Function ---
-function check_zivpn_installed() {
-    if [ -f "/etc/systemd/system/zivpn.service" ] || [ -d "/etc/zivpn" ]; then
-        return 0  # Installed
-    else
-        return 1  # Not installed
-    fi
-}
-
-# --- Auto Install Function ---
-function install_zivpn() {
-    clear
-    echo -e "${PURPLE}╔══════════════════════════════════════════╗${NC}"
-    echo -e "${PURPLE}║          ${LIGHT_CYAN}INSTALLING ZIVPN${PURPLE}           ║${NC}"
-    echo -e "${PURPLE}╚══════════════════════════════════════════╝${NC}"
-    echo ""
-    
-    if check_zivpn_installed; then
-        echo -e "${LIGHT_YELLOW}ZIVPN sudah terinstall!${NC}"
-        echo -e "${LIGHT_CYAN}Menuju ke menu ZIVPN...${NC}"
-        sleep 2
-        return
-    fi
-    
-    echo -e "${LIGHT_BLUE}Menginstall ZIVPN...${NC}"
-    echo -e "${LIGHT_YELLOW}Proses ini mungkin memakan waktu beberapa menit...${NC}"
-    echo ""
-    
-    # Start installation
-    main
-}
-
 # --- Start ZIVPN from Main Menu ---
 function start_zivpn() {
     if ! check_zivpn_installed; then
