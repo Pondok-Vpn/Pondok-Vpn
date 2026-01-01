@@ -1,4 +1,11 @@
 #!/bin/bash
+# BY : PONDOKVPN
+# TELEGRAM @bendakerep
+# YA ALLAH AMPUNILAH HAMBAMU YANG KOTOR INI
+# ===== ANTI LOOP LOCK =====
+INSTALL_LOCK="/etc/pondokvpn/install.lock"
+UPDATE_LOCK="/etc/pondokvpn/update.lock"
+
 # COLOR VALIDATION
 clear
 # Modern Color Palette
@@ -373,13 +380,24 @@ function upp() {
     echo -e "${BICyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e ""
     echo -e "${BIRed} update script service${BIWhite}"
+upp() {
+    clear
+    echo "UPDATE SCRIPT (MENU 09)"
+    sleep 1
+
+    [[ -f "$UPDATE_LOCK" ]] && exec /usr/local/sbin/menu
+
     fun_bar 'res1'
+    touch "$UPDATE_LOCK"
+
+    exec /usr/local/sbin/menu
+}
     echo -e ""
     echo -e "${BICyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e ""
     echo -e "${BIGreen}Redirecting to menu in 3 seconds...${NC}"
     sleep 3
-    menu
+    exec /usr/local/sbin/menu
 }
 
 function edit_figlet_text() {
@@ -406,7 +424,7 @@ function edit_figlet_text() {
     echo -e ""
     echo -e "${BIGreen}Returning to menu in 3 seconds...${NC}"
     sleep 3
-    menu
+    exec /usr/local/sbin/menu
 }
 
 # VPS INFORMATION
@@ -571,6 +589,9 @@ if [[ -z "$exp" ]]; then
     exp="Not Set"
 fi
 
+# FIRST
+first_install
+
 # MAIN MENU
 echo -e " "
 figlet -f slant "$FIGLET_TEXT" | lolcat
@@ -672,11 +693,11 @@ case $opt in
     ;;
 x | X)
     clear
-    menu
+    exec /usr/local/sbin/menu
     ;;
 *)
     echo -e "${BIRed}Invalid Option!${NC}"
     sleep 1
-    menu
+    exec /usr/local/sbin/menu
     ;;
 esac
