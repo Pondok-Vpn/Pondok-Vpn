@@ -165,7 +165,7 @@ function install_zivpn() {
     menu
 }
 
-function upp(){
+function upp() {
     clear
     cd /usr/local/
     rm -rf sbin
@@ -213,7 +213,7 @@ function upp(){
     menu
 }
 
-function edit_figlet_text(){
+function edit_figlet_text() {
     clear
     echo -e "${BICyan}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${BIWhite}          EDIT FIGLET TEXT                ${NC}"
@@ -239,32 +239,6 @@ function edit_figlet_text(){
     sleep 3
     menu
 }
-
-# ... (bagian selanjutnya dari script tetap sama) ...
-
-# USERNAME IZIN IP
-username=$(curl -sS ${regist} | grep $MYIP | awk '{print $2}')
-if [ -z "$username" ]; then
-    username=$(cat /usr/bin/user) # Jika variabel kosong, isi dengan "anonim"
-fi
-echo "$username" >/usr/bin/user
-rm -f /usr/bin/e
-valid=$(curl -sS ${regist} | grep $MYIP | awk '{print $3}')
-echo "$valid" > /usr/bin/e
-
-# DETAIL ORDER IZIN IP
-username=$(cat /usr/bin/user)
-exp=$(cat /usr/bin/e)
-
-# DAYS LEFT
-DATE=$(date +'%Y-%m-%d')
-if [ "$valid" != "lifetime" ]; then
-    d1=$(date -d "$valid" +%s)
-    d2=$(date -d "$DATE" +%s)
-    certifacate=$(((d1 - d2) / 86400))
-else
-    certifacate="Unlimited"
-fi
 
 # VPS INFORMATION
 ping_result=$(ping -c 1 google.com | grep 'time=' | awk -F'time=' '{print $2}' | awk '{print $1}')
@@ -355,16 +329,77 @@ let trb=$trx/2
 ssx=$(cat /etc/xray/config.json | grep "#!!" | wc -l)
 let ssa=$ssx/2
 
-# ACTIVATED & EXPIRED
+# ACTIVATED & EXPIRED dengan DAYS LEFT
 Info="${BIGreen}Active${NC}"
 Eror="${BIRed}Expired${NC}"
-today=`date -d "0 days" +"%Y-%m-%d"`
-Exp1=$(curl -sS ${regist} | grep $MYIP | awk '{print $3}')
-if [[ $today < $Exp1 ]]; then
+today=$(date +'%Y-%m-%d')  # Format tanggal saat ini
+
+# Ambil data dari file regist
+username=$(cat /usr/bin/user 2>/dev/null)
+valid=$(cat /usr/bin/e 2>/dev/null)
+
+# Jika data kosong, coba ambil dari regist langsung
+if [[ -z "$valid" ]] || [[ -z "$username" ]]; then
+    data_raw=$(curl -sS ${regist})
+    username=$(echo "$data_raw" | grep $MYIP | awk '{print $2}')
+    valid=$(echo "$data_raw" | grep $MYIP | awk '{print $3}')
+    
+    # Simpan untuk penggunaan berikutnya
+    echo "$username" >/usr/bin/user 2>/dev/null
+    echo "$valid" > /usr/bin/e 2>/dev/null
+fi
+
+# Jika username kosong, set default
+if [[ -z "$username" ]]; then
+    username="Not Registered"
+fi
+
+# Tentukan status dan sisa hari
+if [[ "$valid" == "lifetime" ]] || [[ "$valid" == "LIFETIME" ]]; then
     sts="${Info}"
-else
+    certifacate="${BIGreen}Unlimited${NC}"
+elif [[ -z "$valid" ]] || [[ "$valid" == "null" ]]; then
     sts="${Eror}"
-    vpsoff
+    certifacate="${BIRed}Not Registered${NC}"
+else
+    # Cek apakah tanggal valid
+    if date -d "$valid" >/dev/null 2>&1; then
+        today_ts=$(date -d "$today" +%s 2>/dev/null)
+        exp_ts=$(date -d "$valid" +%s 2>/dev/null)
+        
+        if [ -z "$today_ts" ] || [ -z "$exp_ts" ]; then
+            sts="${Eror}"
+            certifacate="${BIYellow}Date Error${NC}"
+        elif [ $exp_ts -ge $today_ts ]; then
+            # Masih aktif, hitung sisa hari
+            days_left=$(( (exp_ts - today_ts) / 86400 ))
+            sts="${Info}"
+            
+            if [ $days_left -le 7 ] && [ $days_left -ge 0 ]; then
+                certifacate="${BIYellow}$days_left Days${NC}"
+            elif [ $days_left -lt 0 ]; then
+                sts="${Eror}"
+                days_expired=$(( (today_ts - exp_ts) / 86400 ))
+                certifacate="${BIRed}Expired $days_expired Days Ago${NC}"
+            else
+                certifacate="${BIGreen}$days_left Days${NC}"
+            fi
+        else
+            # Sudah expired
+            sts="${Eror}"
+            days_expired=$(( (today_ts - exp_ts) / 86400 ))
+            certifacate="${BIRed}Expired $days_expired Days Ago${NC}"
+        fi
+    else
+        sts="${Eror}"
+        certifacate="${BIYellow}Invalid Date${NC}"
+    fi
+fi
+
+# Set variabel exp untuk ditampilkan di menu
+exp=$valid
+if [[ -z "$exp" ]]; then
+    exp="Not Set"
 fi
 
 # MAIN MENU
@@ -383,7 +418,7 @@ echo -e "${BICyan} │${BIWhite} Location : ${BICyan}$CITY, $TIMEZONE${NC}"
 echo -e "${BICyan} ├──────────────────────────────────────────────────────────────────┤${NC}"
 echo -e "${BICyan} │${BIWhite} User     : ${BIYellow}$username${NC}"
 echo -e "${BICyan} │${BIWhite} Status   : $sts${NC}"
-echo -e "${BICyan} │${BIWhite} Expired  : ${BIYellow}$exp${NC} (${BIRed}$certifacate Days${NC})"
+echo -e "${BICyan} │${BIWhite} Exp Date : ${BIYellow}$exp${NC} ($certifacate${NC})"
 echo -e "${BICyan} ├──────────────────────────────────────────────────────────────────┤${NC}"
 echo -e "${BICyan} │${BIWhite} SSH      : $status_ssh   ${BIWhite} NGINX    : $status_nginx   ${BIWhite} XRAY     : $status_xray   ${BICyan} ${NC}" 
 echo -e "${BICyan} │${BIWhite} WS-ePRO  : $status_ws_epro   ${BIWhite} DROPBEAR : $status_dropbear   ${BIWhite} HAPROXY  : $status_haproxy   ${BICyan} ${NC}"
