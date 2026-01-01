@@ -361,14 +361,13 @@ TEXT="
 <b> 🟢 NOTIFICATIONS INSTALL 🟢</b>
 <code>────────────────────</code>
 <code>ID     : </code><code>$USRSC</code>
-<code>Domain : </code><code>$domain</code>
+<code>Domain : </code><code>$(cat /etc/xray/domain 2>/dev/null || echo "Not Set")</code>
 <code>Date   : </code><code>$TIME</code>
 <code>Time   : </code><code>$TIMEZONE</code>
 <code>Ip vps : </code><code>$ipsaya</code>
 <code>Exp Sc : </code><code>$EXPSC</code>
 <code>────────────────────</code>
-<i>Automatic Notification from Github</i>
-"'&reply_markup={"inline_keyboard":[[{"text":"ᴏʀᴅᴇʀ","url":"https://t.me/bendakerep"},{"text":"Contack","url":"https://wa.me/6282147725445"}]]}'
+<i>Automatic Notification from Github</i>"
 curl -s --max-time $TIMES -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
 }
 clear
