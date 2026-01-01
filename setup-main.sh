@@ -39,22 +39,48 @@ fi
 username=$(echo "$USER_DATA" | awk '{print $2}')
 exp_date=$(echo "$USER_DATA" | awk '{print $3}')
 today=$(date +%Y-%m-%d)
-if [[ "$today" < "$exp_date" ]]; then
-    echo "✅ STATUS AKTIF: Username '$username' berlaku hingga $exp_date"
-    # Simpan username untuk digunakan nanti (opsional)
-    echo "$username" > /tmp/install_username
-else
-    echo "=================================================="
-    echo "❌   STATUS EXPIRED   ❌"
-    echo "❌   MASA AKTIF HABIS ❌"
-    echo "=================================================="
-    echo "Username : $username"
-    echo "IP       : $MYIP"
-    echo "Expired  : $exp_date"
-    echo "Hari Ini : $today"
-    echo ""
-    echo "Perpanjang masa aktif di file REGIST repository Anda."
+
+# Simpan data ke file untuk digunakan nanti
+echo "$username" > /usr/bin/user
+echo "$exp_date" > /usr/bin/e
+
+# Cek masa aktif dengan logika yang lebih baik
+if [[ "$exp_date" == "lifetime" ]] || [[ "$exp_date" == "LIFETIME" ]]; then
+    echo "✅ STATUS AKTIF: Username '$username' - LIFETIME"
+elif [[ -z "$exp_date" ]]; then
+    echo "❌ ERROR: Tanggal expired tidak ditemukan"
     exit 1
+else
+    # Cek apakah tanggal valid
+    if date -d "$exp_date" >/dev/null 2>&1; then
+        today_ts=$(date -d "$today" +%s 2>/dev/null)
+        exp_ts=$(date -d "$exp_date" +%s 2>/dev/null)
+        
+        if [ -z "$today_ts" ] || [ -z "$exp_ts" ]; then
+            echo "❌ ERROR: Format tanggal tidak valid"
+            exit 1
+        elif [ $exp_ts -ge $today_ts ]; then
+            days_left=$(( (exp_ts - today_ts) / 86400 ))
+            echo "✅ STATUS AKTIF: Username '$username' berlaku hingga $exp_date ($days_left hari lagi)"
+        else
+            days_expired=$(( (today_ts - exp_ts) / 86400 ))
+            echo "=================================================="
+            echo "❌   STATUS EXPIRED   ❌"
+            echo "❌   MASA AKTIF HABIS ❌"
+            echo "=================================================="
+            echo "Username : $username"
+            echo "IP       : $MYIP"
+            echo "Expired  : $exp_date"
+            echo "Hari Ini : $today"
+            echo "Telah Expired: $days_expired hari yang lalu"
+            echo ""
+            echo "Perpanjang masa aktif di file REGIST repository Anda."
+            exit 1
+        fi
+    else
+        echo "❌ ERROR: Format tanggal expired tidak valid: $exp_date"
+        exit 1
+    fi
 fi
 echo "✅ Validasi masa aktif selesai."
 sleep 2
@@ -142,34 +168,33 @@ MYIP=$(curl -sS ipv4.icanhazip.com)
 echo -e "\e[32mloading...\e[0m"
 clear
 clear
-rm -f /usr/bin/user
-username=$(curl https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/REGIST | grep $MYIP | awk '{print $2}')
-echo "$username" >/usr/bin/user
-expx=$(curl https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/REGIST | grep $MYIP | awk '{print $3}')
-echo "$expx" >/usr/bin/e
-username=$(cat /usr/bin/user)
-oid=$(cat /usr/bin/ver)
-exp=$(cat /usr/bin/e)
 clear
-d1=$(date -d "$valid" +%s)
-d2=$(date -d "$today" +%s)
-certifacate=$(((d1 - d2) / 86400))
-DATE=$(date +'%Y-%m-%d')
-datediff() {
-d1=$(date -d "$1" +%s)
-d2=$(date -d "$2" +%s)
-echo -e "$COLOR1 $NC Expiry In   : $(( (d1 - d2) / 86400 )) Days"
-}
-mai="datediff "$Exp" "$DATE""
-Info="(${green}Active${NC})"
-Error="(${RED}ExpiRED${NC})"
-today=`date -d "0 days" +"%Y-%m-%d"`
-Exp1=$(curl https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/REGIST | grep $MYIP | awk '{print $4}')
-if [[ $today < $Exp1 ]]; then
-sts="${Info}"
-else
-sts="${Error}"
+# Ambil data dari file regist
+username=$(cat /usr/bin/user 2>/dev/null || echo "")
+valid=$(cat /usr/bin/e 2>/dev/null || echo "")
+
+# Jika data kosong, coba ambil dari regist langsung
+if [[ -z "$valid" ]] || [[ -z "$username" ]]; then
+    data_raw=$(curl -sS https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/REGIST)
+    username=$(echo "$data_raw" | grep $MYIP | awk '{print $2}')
+    valid=$(echo "$data_raw" | grep $MYIP | awk '{print $3}')
+    
+    # Simpan untuk penggunaan berikutnya
+    echo "$username" >/usr/bin/user 2>/dev/null
+    echo "$valid" > /usr/bin/e 2>/dev/null
 fi
+
+# Jika username kosong, set default
+if [[ -z "$username" ]]; then
+    username="Not Registered"
+fi
+
+# Set variabel exp untuk ditampilkan di menu
+exp=$valid
+if [[ -z "$exp" ]]; then
+    exp="Not Set"
+fi
+
 echo -e "\e[32mloading...\e[0m"
 clear
 REPO="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/"
@@ -328,8 +353,8 @@ fi
 }
 clear
 restart_system() {
-USRSC=$(wget -qO- https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/REGIST | grep $ipsaya | awk '{print $2}')
-EXPSC=$(wget -qO- https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/REGIST | grep $ipsaya | awk '{print $3}')
+USRSC=$(cat /usr/bin/user 2>/dev/null || echo "unknown")
+EXPSC=$(cat /usr/bin/e 2>/dev/null || echo "unknown")
 TIMEZONE=$(printf '%(%H:%M:%S)T')
 TEXT="
 <code>────────────────────</code>
