@@ -2,7 +2,7 @@
 ## BY : PONDOK VPN
 
 REPO_SAYA="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main"
-URL_REGIST="$REPO_SAYA/REGIST"
+URL_REGIST="$REPO_SAYA/DAFTAR"
 
 echo "🔍 [VALIDASI] MENUNGGU HARAPAN YANG TAK PASTI...."
 
@@ -12,71 +12,6 @@ for i in {1..10}; do
     sleep 2
 done
 
-# ===== AMBIL IP VPS =====
-MYIP=$(curl -4 -s ipv4.icanhazip.com || curl -4 -s api.ipify.org)
-
-if [[ -z "$MYIP" ]]; then
-    echo "❌ GAGAL MENGAMBIL IP PUBLIK"
-    exit 1
-fi
-echo "✅ IP SERVER ADA: $MYIP"
-
-# ===== AMBIL REGIST =====
-echo "📋 MEMBACA FILE REGIST: $URL_REGIST"
-REGIST_DATA=$(curl -s "$URL_REGIST" \
-    | tr -d '\r' \
-    | sed '/^#/d')
-
-if [[ -z "$REGIST_DATA" ]]; then
-    echo "❌ FILE REGIST KOSONG / TIDAK TERBACA"
-    exit 1
-fi
-
-# ===== CARI DATA IP =====
-USER_DATA=$(echo "$REGIST_DATA" | awk -v ip="$MYIP" '$1 == ip')
-
-if [[ -z "$USER_DATA" ]]; then
-    echo "❌ IP $MYIP TIDAK TERDAFTAR DI REGIST"
-    exit 1
-fi
-
-username=$(echo "$USER_DATA" | awk '{print $2}')
-exp_date=$(echo "$USER_DATA" | awk '{print $3}')
-
-echo "👤 USER : $username"
-echo "📅 EXPIRED : $exp_date"
-
-# ===== SIMPAN CACHE =====
-mkdir -p /etc/pondokvpn
-echo "$MYIP" > /etc/pondokvpn/ip.conf
-echo "$username" > /etc/pondokvpn/user.conf
-echo "$exp_date" > /etc/pondokvpn/exp.conf
-
-# ===== CEK MASA AKTIF =====
-if [[ "$exp_date" =~ ^(LIFETIME|Lifetime)$ ]]; then
-    echo "✅ STATUS AKTIF : LIFETIME"
-else
-    if ! date -d "$exp_date" >/dev/null 2>&1; then
-        echo "❌ FORMAT TANGGAL SALAH DI REGIST"
-        exit 1
-    fi
-
-    today=$(date +%s)
-    exp=$(date -d "$exp_date" +%s)
-
-    if [[ $exp -lt $today ]]; then
-        echo "⛔ LICENSE EXPIRED ⛔"
-        exit 1
-    fi
-
-    sisa=$(( (exp - today) / 86400 ))
-    echo "✅ STATUS AKTIF : $sisa HARI"
-fi
-
-echo "✅ VALIDASI LICENSE SELESAI"
-sleep 2
-clear
-# ===== SIMPAN CACHE LICENSE =====
 mkdir -p /usr/bin
 echo "$username" > /usr/bin/user
 echo "$exp_date" > /usr/bin/e
