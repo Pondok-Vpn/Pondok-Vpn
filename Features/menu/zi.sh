@@ -3,6 +3,23 @@
 # Modified by: PONDOK VPN
 # Contact: 082147725445
 # Telegram: @bendakerep
+# VALIDASI WARNA
+PINK='\033[0;95m'
+PURPLE='\033[0;35m'
+MAGENTA='\033[0;95m'
+CYAN='\033[0;96m'
+LIGHT_CYAN='\033[1;96m'
+LIGHT_GREEN='\033[1;92m'
+LIGHT_BLUE='\033[1;94m'
+LIGHT_YELLOW='\033[1;93m'
+LIGHT_RED='\033[1;91m'
+YELLOW='\033[0;93m'
+RED='\033[0;91m'
+GREEN='\033[0;92m'
+BLUE='\033[0;94m'
+WHITE='\033[1;97m'
+ORANGE='\033[0;33m'
+NC='\033[0m' # No Color
 # ================================================
 # FUNGSI INSTALL ZIVPN FROM MAIN MENU
 # ================================================
@@ -121,23 +138,6 @@ function zivpn_menu() {
         fi
     fi
 }
-# --- UI Definitions ---
-PINK='\033[0;95m'
-PURPLE='\033[0;35m'
-MAGENTA='\033[0;95m'
-CYAN='\033[0;96m'
-LIGHT_CYAN='\033[1;96m'
-LIGHT_GREEN='\033[1;92m'
-LIGHT_BLUE='\033[1;94m'
-LIGHT_YELLOW='\033[1;93m'
-LIGHT_RED='\033[1;91m'
-YELLOW='\033[0;93m'
-RED='\033[0;91m'
-GREEN='\033[0;92m'
-BLUE='\033[0;94m'
-WHITE='\033[1;97m'
-ORANGE='\033[0;33m'
-NC='\033[0m' # No Color
 
 # --- License Info ---
 LICENSE_URL="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/ip"
