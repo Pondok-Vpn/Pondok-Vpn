@@ -374,7 +374,7 @@ case $opt in
     clear
     UDEPE
     ;;
-9 | 09)
+#9 | 09)
     clear
     upp
     ;;
