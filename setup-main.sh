@@ -4,7 +4,7 @@
 REPO_SAYA="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main"
 export REPO="$REPO_SAYA"
 
-echo "🔍 [VALIDASI] MENUNGGU 19 LAPANGAN PEKERJAAN..."
+echo "🔍 [VALIDASI] MENUNGGU HARAPAN YANG TAK PASTI...."
 for i in {1..10}; do
     ping -c1 8.8.8.8 >/dev/null 2>&1 && break
     sleep 2
