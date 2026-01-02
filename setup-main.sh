@@ -3,18 +3,7 @@
 
 REPO_SAYA="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main"
 URL_REGIST="$REPO_SAYA/DAFTAR"
-
-echo "🔍 [VALIDASI] MENUNGGU HARAPAN YANG TAK PASTI...."
-
-# ===== CEK KONEKSI =====
-for i in {1..10}; do
-    ping -c1 8.8.8.8 >/dev/null 2>&1 && break
-    sleep 2
 done
-
-mkdir -p /usr/bin
-echo "$username" > /usr/bin/user
-echo "$exp_date" > /usr/bin/e
 echo "✅ MEMULAI INSTALASI UTAMA ✅"
 apt update -y
 apt upgrade -y
