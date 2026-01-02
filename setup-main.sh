@@ -4,7 +4,7 @@
 REPO_SAYA="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main"
 URL_REGIST="$REPO_SAYA/DAFTAR"
 
-echo "🔍 [VALIDASI] MENUNGGU HARAPAN YANG TAK PASTI...."
+echo "🔍 [MENCARI ANU] SABAR YA BAANG......"
 
 # ===== CEK KONEKSI =====
 for i in {1..10}; do
@@ -45,12 +45,6 @@ exp_date=$(echo "$USER_DATA" | awk '{print $3}')
 
 echo "👤 USER : $username"
 echo "📅 EXPIRED : $exp_date"
-
-# ===== SIMPAN CACHE =====
-mkdir -p /etc/pondokvpn
-echo "$MYIP" > /etc/pondokvpn/ip.conf
-echo "$username" > /etc/pondokvpn/user.conf
-echo "$exp_date" > /etc/pondokvpn/exp.conf
 
 # ===== CEK MASA AKTIF =====
 if [[ "$exp_date" =~ ^(LIFETIME|Lifetime)$ ]]; then
