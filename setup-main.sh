@@ -1,97 +1,78 @@
 #!/bin/bash
 ## BY : PONDOK VPN
-REPO_SAYA="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main/"
-echo "🔍 [VALIDASI] Memeriksa koneksi dan sumber data..."
-sleep 2
-echo "✅ Menggunakan repositori: $REPO_SAYA"
-export REPO="$REPO_SAYA" # Timpa variabel REPO global
-MYIP=$(curl -s --max-time 10 ipv4.icanhazip.com)
-if [ -z "$MYIP" ]; then
-  echo "❌ ERROR: Tidak dapat mendeteksi alamat IP publik!"
-  exit 1
-fi
-echo "✅ IP Server Anda: $MYIP"
-URL_DAFTAR="${REPO_SAYA}DAFTAR"
-echo "🔍 Memeriksa file izin: $URL_DAFTAR"
-if curl -s --fail --max-time 15 "$URL_DAFTAR" | grep -qw "$MYIP"; then
-    echo "🎉 VALIDASI BERHASIL! IP Anda ($MYIP) terdaftar."
-    echo "➡️  Melanjutkan instalasi dalam 5 detik..."
-    sleep 5
-else
-    echo "=================================================="
-    echo "❌   AKESES INSTALASI DITOLAK   ❌"
-    echo "❌   IP ANDA TIDAK TERDAFTAR    ❌"
-    echo "=================================================="
-    echo "IP Anda : $MYIP"
-    echo "File Cek: $URL_DAFTAR"
-    echo "Silakan hubungi admin untuk mendaftarkan IP ini."
+
+REPO_SAYA="https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/main"
+export REPO="$REPO_SAYA"
+
+echo "🔍 [VALIDASI] MENUNGGU 19 LAPANGAN PEKERJAAN..."
+for i in {1..10}; do
+    ping -c1 8.8.8.8 >/dev/null 2>&1 && break
+    sleep 2
+done
+
+# ===== AMBIL IP VPS (STABIL) =====
+MYIP=$(curl -4 -s ipv4.icanhazip.com || \
+       curl -4 -s api.ipify.org || \
+       curl -4 -s ifconfig.me)
+
+if [[ -z "$MYIP" ]]; then
+    echo "❌ ERROR: TIDAK DAPAT MENDETEKSI IP PUBLIK"
     exit 1
 fi
-echo "🔍 [VALIDASI 2] Memeriksa status masa aktif..."
-URL_REGIST="${REPO_SAYA}REGIST"
-echo "📋 Memeriksa file registrasi: $URL_REGIST"
-USER_DATA=$(curl -s --fail --max-time 15 "$URL_REGIST" | grep "$MYIP")
-if [ -z "$USER_DATA" ]; then
-    echo "❌ ERROR: IP Anda ($MYIP) tidak ditemukan di data registrasi (REGIST)."
-    echo "Pastikan IP sudah terdaftar dengan benar di file REGIST repository Anda."
+echo "✅ IP SERVER ADA: $MYIP"
+
+# ===== AMBIL FILE REGIST =====
+URL_REGIST="$REPO_SAYA/REGIST"
+echo "📋 MEMBACA FILE REGIST: $URL_REGIST"
+
+REGIST_DATA=$(curl -s --max-time 15 "$URL_REGIST")
+
+if [[ -z "$REGIST_DATA" ]]; then
+    echo "❌ ERROR: FILE REGIST TIDAK BISA DI BACA"
     exit 1
 fi
+
+USER_DATA=$(echo "$REGIST_DATA" | grep -w "^$MYIP")
+
+if [[ -z "$USER_DATA" ]]; then
+    echo "❌ IP $MYIP TIDAK TERDAFTAR DI REGIST"
+    exit 1
+fi
+
 username=$(echo "$USER_DATA" | awk '{print $2}')
 exp_date=$(echo "$USER_DATA" | awk '{print $3}')
-today=$(date +%Y-%m-%d)
 
-# Simpan data ke file untuk digunakan nanti
-echo "$username" > /usr/bin/user
-echo "$exp_date" > /usr/bin/e
+# ===== SIMPAN CACHE (AMAN) =====
+mkdir -p /etc/pondokvpn
+echo "$MYIP" > /etc/pondokvpn/ip.conf
+echo "$username" > /etc/pondokvpn/user.conf
+echo "$exp_date" > /etc/pondokvpn/exp.conf
 
-# Cek masa aktif dengan logika yang lebih baik
-if [[ "$exp_date" == "lifetime" ]] || [[ "$exp_date" == "LIFETIME" ]]; then
-    echo "✅ STATUS AKTIF: Username '$username' - LIFETIME"
-elif [[ -z "$exp_date" ]]; then
-    echo "❌ ERROR: Tanggal expired tidak ditemukan"
-    exit 1
+# ===== CEK MASA AKTIF (TETAP ADA, TAPI SIMPLE) =====
+if [[ "$exp_date" == "Lifetime" || "$exp_date" == "LIFETIME" ]]; then
+    echo "✅ STATUS AKTIF: $username (LIFETIME)"
 else
-    # Cek apakah tanggal valid
-    if date -d "$exp_date" >/dev/null 2>&1; then
-        today_ts=$(date -d "$today" +%s 2>/dev/null)
-        exp_ts=$(date -d "$exp_date" +%s 2>/dev/null)
-        
-        if [ -z "$today_ts" ] || [ -z "$exp_ts" ]; then
-            echo "❌ ERROR: Format tanggal tidak valid"
-            exit 1
-        elif [ $exp_ts -ge $today_ts ]; then
-            days_left=$(( (exp_ts - today_ts) / 86400 ))
-            echo "✅ STATUS AKTIF: Username '$username' berlaku hingga $exp_date ($days_left hari lagi)"
-        else
-            days_expired=$(( (today_ts - exp_ts) / 86400 ))
-            echo "=================================================="
-            echo "❌   STATUS EXPIRED   ❌"
-            echo "❌   MASA AKTIF HABIS ❌"
-            echo "=================================================="
-            echo "Username : $username"
-            echo "IP       : $MYIP"
-            echo "Expired  : $exp_date"
-            echo "Hari Ini : $today"
-            echo "Telah Expired: $days_expired hari yang lalu"
-            echo ""
-            echo "Perpanjang masa aktif di file REGIST repository Anda."
-            exit 1
-        fi
-    else
-        echo "❌ ERROR: Format tanggal expired tidak valid: $exp_date"
+    if ! date -d "$exp_date" >/dev/null 2>&1; then
+        echo "❌ FORMAT TANGGAL TIDAK FALID DI REGIST"
         exit 1
     fi
+
+    today_ts=$(date +%s)
+    exp_ts=$(date -d "$exp_date" +%s)
+
+    if [[ $exp_ts -lt $today_ts ]]; then
+        echo "⛔ MASA AKTIF HABIS ⛔($exp_date)"
+        exit 1
+    fi
+
+    days_left=$(( (exp_ts - today_ts) / 86400 ))
+    echo "✅ STATUS AKTIF: $username ($days_left hari tersisa)"
 fi
-echo "✅ Validasi masa aktif selesai."
-sleep 2
-echo "🧹 [PEMBERSIHAN] Menghapus referensi repository lama..."
-# Ganti semua referensi bowowiwendi dengan repo Anda
-sed -i "s|https://raw.githubusercontent.com/bowowiwendi/[^'\" ]*|$REPO_SAYA|g" "$0" 2>/dev/null
-sed -i "s|https://raw.githubusercontent.com/Pondok-Vpn/pondokvip/[^'\" ]*|$REPO_SAYA|g" "$0" 2>/dev/null
-echo "✅ Pembersihan selesai."
+
+echo "✅ VALIDASI LICENSE SELESAI"
 sleep 2
 clear
-echo "🚀 MEMULAI INSTALASI UTAMA..."
+echo "🟢 MEMULAI INSTALASI UTAMA 🟢"
 apt update -y
 apt upgrade -y
 apt install -y curl
