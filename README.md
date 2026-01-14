@@ -12,3 +12,6 @@
 
 <!-- Proudly created with GPRM ( https://gprm.itsvg.in ) -->
 <a href="https://t.me/bendakerep" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Telegram&label=Telegram&message=Click%20Here&color=blue"></a><br>
+
+
+[![email](https://img.shields.io/badge/telegram-D14836?logo=telegram&logoColor=blue)]([mailto:redzall55@gmail.com](https://t.me/bendakerep)) 
