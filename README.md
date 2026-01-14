@@ -1,3 +1,4 @@
+[![Telegram](https://img.shields.io/badge/Telegram-%231877F2.svg?logo=Telegram&logoColor=white)](https://telegram.org/https://t.me/bendakerep)
 [![Facebook](https://img.shields.io/badge/Facebook-%231877F2.svg?logo=Facebook&logoColor=white)](https://facebook.com/https://www.facebook.com/red.zall.1) [![email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:redzall55@gmail.com) 
 
 
@@ -11,7 +12,3 @@
 [![](https://visitcount.itsvg.in/api?id=Pondok-Vpn&icon=0&color=1)](https://visitcount.itsvg.in)
 
 <!-- Proudly created with GPRM ( https://gprm.itsvg.in ) -->
-<a href="https://t.me/bendakerep" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Telegram&label=Telegram&message=Click%20Here&color=blue"></a><br>
-
-
-[![email](https://img.shields.io/badge/telegram-D14836?logo=telegram&logoColor=blue)]([mailto:redzall55@gmail.com](https://t.me/bendakerep)) 
