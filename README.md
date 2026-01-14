@@ -1,7 +1,3 @@
-# Dosa tanggung sendiri
-
-
-## 🌐 Socials:
 [![Facebook](https://img.shields.io/badge/Facebook-%231877F2.svg?logo=Facebook&logoColor=white)](https://facebook.com/https://www.facebook.com/red.zall.1) [![email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:redzall55@gmail.com) 
 
 
